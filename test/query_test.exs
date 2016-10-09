@@ -11,7 +11,7 @@ defmodule QueryTest do
   alias Snappyex, as: S
 
   setup do
-    opts = [ host: "snappydata.192.168.1.80.nip.io", clientID: "ElixirClient1|0x" <> Base.encode16(inspect self), 
+    opts = [ host: "localhost", clientID: "ElixirClient1|0x" <> Base.encode16(inspect self), 
      port: 1531, userName: "APP", password: "APP",  security: Snappyex.Model.SecurityMechanism.plain, 
      tokenSize: 16, useStringForDecimal: false, properties: :dict.new()]
     {:ok, pid} = S.start_link(opts)
