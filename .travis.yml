@@ -6,18 +6,9 @@ before_install:
   - wget https://github.com/SnappyDataInc/snappydata/releases/download/v0.6/snappydata-0.6-bin.tar.gz
   - tar xvf snappydata-0.6-bin.tar.gz
 before_script:
-  - |
-    cat << EOF > ./snappydata-0.6-bin/conf/servers
-    localhost -client-bind-address=localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true  -thrift-server-address=localhost -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true
-    EOF
-  - |
-    cat << EOF > ./snappydata-0.6-bin/conf/locators
-    localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=localhost -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true
-    EOF
-  - |
-    cat << EOF > ./snappydata-0.6-bin/conf/leads
-    localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m
-    EOF
+  - echo "localhost -client-bind-address=localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true  -thrift-server-address=localhost -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true" | tee -a ./snappydata-0.6-bin/conf/server
+  - echo "localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=localhost -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true" | tee -a ./snappydata-0.6-bin/conf/locators
+  - echo "localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m" | tee -a ./snappydata-0.6-bin/conf/leads
   - ./snappydata-0.6-bin/sbin/snappy-start-all.sh 
 env:
   global:
