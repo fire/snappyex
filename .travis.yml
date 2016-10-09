@@ -1,11 +1,14 @@
 language: elixir
+addons:
+  apt:
+    packages:
+    - git
 git:
   depth: 150
 elixir:
   - 1.3.3
 cache: apt
 before_install:
-  - sudo apt -y update && sudo apt -y install git
   - wget https://github.com/SnappyDataInc/snappydata/releases/download/v0.6/snappydata-0.6-bin.tar.gz
   - tar xvf snappydata-0.6-bin.tar.gz
 before_script:
