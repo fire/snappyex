@@ -12,11 +12,11 @@ before_script:
     EOF
   - |
     cat << EOF > ./snappydata-0.6-bin/conf/locators
-    localhost -dir=/opt/snappydata/data/locator -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=localhost -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true
+    localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=localhost -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true
     EOF
   - |
     cat << EOF > ./snappydata-0.6-bin/conf/leads
-    localhost -dir=/opt/snappydata/data/lead -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m
+    localhost -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m
     EOF
   - ./snappydata-0.6-bin/sbin/snappy-start-all.sh 
 env:
