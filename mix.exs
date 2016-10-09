@@ -4,7 +4,7 @@ defmodule Snappyex.Mixfile do
   def project do
     [app: :snappyex,
      version: "0.0.1",
-     elixir: "~> 1.3",
+     elixir: "~> 1.3.3",
      compilers: [:thrift | Mix.compilers],
      thrift_files: Mix.Utils.extract_files(["thrift"], [:thrift]),
      thrift_version: ">= 0.9.3",

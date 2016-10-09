@@ -8,7 +8,7 @@
   "goldrush": {:git, "https://github.com/basho/goldrush.git", "8f1b715d36b650ec1e1f5612c00e28af6ab0de82", [tag: "0.1.9"]},
   "hackney": {:hex, :hackney, "1.6.1", "ddd22d42db2b50e6a155439c8811b8f6df61a4395de10509714ad2751c6da817", [:rebar3], [{:certifi, "0.4.0", [hex: :certifi, optional: false]}, {:idna, "1.2.0", [hex: :idna, optional: false]}, {:metrics, "1.0.1", [hex: :metrics, optional: false]}, {:mimerl, "1.0.2", [hex: :mimerl, optional: false]}, {:ssl_verify_fun, "1.1.0", [hex: :ssl_verify_fun, optional: false]}]},
   "idna": {:hex, :idna, "1.2.0", "ac62ee99da068f43c50dc69acf700e03a62a348360126260e87f2b54eced86b2", [:rebar3], []},
-  "lager": {:git, "https://github.com/basho/lager.git", "571aa65c565c351d1b0a1f04076dd5bd291e836e", []},
+  "lager": {:git, "https://github.com/basho/lager.git", "81eaef0ce98fdbf64ab95665e3bc2ec4b24c7dac", []},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
   "riffed": {:git, "https://github.com/pinterest/riffed.git", "97423bd3a6e4fd205ab2fa996e8d5af060eab96b", [tag: "v_1_5_0", submodules: true]},
