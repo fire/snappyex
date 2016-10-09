@@ -1,8 +1,6 @@
 language: elixir
-addons:
-  apt:
-    packages:
-    - git
+sudo: required
+dist: trusty
 git:
   depth: 150
 elixir:
