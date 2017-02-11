@@ -16,6 +16,6 @@
   "ranch": {:hex, :ranch, "1.2.1", "a6fb992c10f2187b46ffd17ce398ddf8a54f691b81768f9ef5f461ea7e28c762", [:make], []},
   "riffed": {:git, "https://github.com/scohen/riffed.git", "66fc71df86d13ee04d37ad46063e839e0f76018c", [ref: "66fc71df86d13ee04d37ad46063e839e0f76018c", submodules: true]},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], []},
-  "thrift": {:git, "https://github.com/pinterest/elixir-thrift.git", "6b7b518119cd047e853ede17ba5066f0713c30ac", [ref: "thrift_tng"]},
+  "thrift": {:git, "https://github.com/pinterest/elixir-thrift.git", "af41860c9548291c72ba5d09400d27a9b9c81766", [ref: "thrift_tng"]},
   "timex": {:hex, :timex, "3.0.8", "71d5ebafcdc557c6c866cdc196c5054f587e7cd1118ad8937e2293d51fc85608", [:mix], [{:combine, "~> 0.7", [hex: :combine, optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, optional: false]}]},
   "tzdata": {:hex, :tzdata, "0.5.9", "575be217b039057a47e133b72838cbe104fb5329b19906ea4e66857001c37edb", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, optional: false]}]}}
