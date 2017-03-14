@@ -172,6 +172,11 @@ defmodule Snappyex.Protocol do
 
   def handle_prepare(query, _opts, state) do
     query = Map.put_new(query, :name, "")
+    query = unless query.types == nil do
+       query
+    else
+        %{query | types: []}
+    end
     case prepare_lookup(query, state) do
       {:prepared, query} ->
         {:ok, query, state}
@@ -201,10 +206,6 @@ defmodule Snappyex.Protocol do
         process_id, connection_id, to_string(query.statement), output_parameters,
         nil, token, gen_server_opts: [timeout: @time_out]) do
         {:ok, prepared_result} ->
-            query = %{query | param_formats: prepared_result.parameter_meta_data}
-            query = unless query.param_formats == nil do
-              %{query | types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}
-            end
             prepare_result(query, prepared_result, state)
         {:error, error} ->
           {:disconnect, error.exceptionData.reason, state}
@@ -216,6 +217,31 @@ defmodule Snappyex.Protocol do
       nil -> 0
       result -> Enum.count(result)
     end
+    query = unless query.types == nil do
+         query
+      else
+         %{query | types: []}
+    end
+    query = unless prepared_result.parameter_meta_data == nil do
+              %{query | param_formats: prepared_result.parameter_meta_data}
+            else
+              %{query | param_formats: []}
+            end
+            query = unless prepared_result.result_set_meta_data == nil do
+              %{query | result_formats: prepared_result.result_set_meta_data}
+            else
+              %{query | result_formats: []}
+            end
+            query = unless query.param_formats == nil do
+              %{query | types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}
+            else
+              %{query | types: []}
+            end
+            query = unless query.types == nil do
+               query
+       else 
+        %{query | types: []}
+     end
     query = prepare_insert(prepared_result.statement_id, num_params, %Snappyex.Query{query | ref: make_ref()}, state)
     {:ok, query, state}
   end

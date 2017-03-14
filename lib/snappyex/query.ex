@@ -22,25 +22,30 @@ end
 defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
   use Timex
-  def describe(query, _opts) do
+  def describe(%Query{} = query, _opts) do
     query
   end
-  def encode(%Snappyex.Query{} = query, params, _opts) do  
-     params = case params do
-                [] -> nil
-        # TODO For each element in list take type and convert it.         
-                [43, "fortythree"] -> 
-                %SnappyData.Thrift.Row{values: [%SnappyData.Thrift.ColumnValue{i32_val: 43},
-                                                                    %SnappyData.Thrift.ColumnValue{clob_val:
-                                                                      %SnappyData.Thrift.ClobChunk{
-                                                                        chunk: "fortythree",
-                                                                        last: true,
-                                                                        total_length: byte_size("fortythree")
-                                                                      }
-                                                                    }
-                                                                    ]}
-     end  
-     params
+  def encode(%Query{types: types} = query, params, _opts) do
+    encode(types, params)
+  end  
+  def encode(types, params) do 
+    %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
+  end
+  def encode_values([type | types], [param | params], acc) do
+    encode_values(types, params, [encode_field(param, type) | acc])
+  end
+  def encode_values([], [], acc), do: Enum.reverse(acc)
+  def encode_field(field, :integer) do
+    %SnappyData.Thrift.ColumnValue{i32_val: field}
+  end
+  def encode_field(field, :varchar) do
+    %SnappyData.Thrift.ColumnValue{clob_val:
+      %SnappyData.Thrift.ClobChunk{
+        chunk: field,
+        last: true,
+        total_length: byte_size(field)
+      }
+    }
   end
   def decode(rows, columns), do: decode(rows, columns, [])
   def decode([row | rows], columns, acc) do
