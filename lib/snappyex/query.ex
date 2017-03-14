@@ -23,9 +23,13 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
   use Timex
   def describe(query, _opts) do
+    require Logger
+    Logger.debug inspect inspect query
     query
   end
   def encode(%Snappyex.Query{} = query, params, _opts) do  
+     require Logger
+     Logger.debug inspect params
      params = case params do
                 [] -> nil
         # TODO For each element in list take type and convert it.         
