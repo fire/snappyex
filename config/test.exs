@@ -2,7 +2,7 @@ use Mix.Config
 
 config :snappyex,
   host: "localhost",
-  port: 1527
+  port: 1531
 
 config :tzdata,
   autoupdate: :disabled

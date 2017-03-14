@@ -55,7 +55,6 @@ namespace php snappydata.thrift
 namespace perl SnappyData.Thrift
 namespace elixir SnappyData.Thrift
 
-
 struct Decimal {
   1: required byte                                         signum
   2: required i32                                          scale
