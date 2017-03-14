@@ -25,6 +25,13 @@ defmodule QueryTest do
     assert [[123]] == query(["S", ?E, ["LEC"|"T"], " ", '123'], params)
   end
 
+  test "encode basic types", context do
+    query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_ENCODE", [])
+    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string)", [])
+    assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body) VALUES (?, ?, ?)", [1, "Along came a spider", "This is a book"])
+    query("DROP TABLE SNAPPYEX_TEST.TEST_ENCODE", [])
+  end
+
   test "decode basic types", context do
     params = []
     assert [[nil]] ==  query("SELECT NULL", params)

@@ -47,6 +47,15 @@ defimpl DBConnection.Query, for: Snappyex.Query do
       }
     }
   end
+  def encode_field(field, :clob) do
+    %SnappyData.Thrift.ColumnValue{clob_val:
+      %SnappyData.Thrift.ClobChunk{
+        chunk: field,
+        last: true,
+        total_length: byte_size(field)
+      }
+    }
+  end
   def decode(rows, columns), do: decode(rows, columns, [])
   def decode([row | rows], columns, acc) do
     decode(rows, columns, [decode_row(row.values, columns, []) | acc])
