@@ -201,9 +201,9 @@ defmodule Snappyex.Protocol do
         process_id, connection_id, to_string(query.statement), output_parameters,
         nil, token, gen_server_opts: [timeout: @time_out]) do
         {:ok, prepared_result} ->
-            query = %{query | result_set_meta_data: prepared_result.result_set_meta_data}
-            unless query.result_set_meta_data == nil do
-              query = %{query | columns: Snappyex.Query.query_columns_list(prepared_result.result_set_meta_data)}
+            query = %{query | param_formats: prepared_result.parameter_meta_data}
+            query = unless query.param_formats == nil do
+              %{query | types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}
             end
             prepare_result(query, prepared_result, state)
         {:error, error} ->

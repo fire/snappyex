@@ -9,7 +9,7 @@ defmodule Snappyex.Query do
       map, [], fn (x, acc) -> 
           if is_map(x) and Map.has_key?(x, :name) do
             {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(x.type)
-            [{x.name, type} |  acc ]
+            [type | acc]
           else
             acc
           end
@@ -23,13 +23,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
   use Timex
   def describe(query, _opts) do
-    require Logger
-    Logger.debug inspect inspect query
     query
   end
   def encode(%Snappyex.Query{} = query, params, _opts) do  
-     require Logger
-     Logger.debug inspect params
      params = case params do
                 [] -> nil
         # TODO For each element in list take type and convert it.         
@@ -46,7 +42,6 @@ defimpl DBConnection.Query, for: Snappyex.Query do
      end  
      params
   end
-
   def decode(rows, columns), do: decode(rows, columns, [])
   def decode([row | rows], columns, acc) do
     decode(rows, columns, [decode_row(row.values, columns, []) | acc])
