@@ -25,7 +25,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def describe(%Query{} = query, _opts) do
     query
   end
-  def encode(%Query{types: types} = query, params, _opts) do
+  def encode(%Query{types: types}, params, _opts) do
     encode(types, params)
   end  
   def encode(types, params) do 
