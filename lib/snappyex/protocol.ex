@@ -171,7 +171,6 @@ defmodule Snappyex.Protocol do
   end
 
   def handle_prepare(query, _opts, state) do
-    query = Map.put_new(query, :name, "")
     query = unless query.types == nil do
        query
     else
