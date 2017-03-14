@@ -178,7 +178,7 @@ defmodule Snappyex.Protocol do
     end
     case prepare_lookup(query, state) do
       {:prepared, query} ->
-        {:ok, query, state}
+        prepare(query, state)      
       {:prepare, query} ->
         prepare(query, state)
       {:close_prepare, statement_id, query} ->
