@@ -64,11 +64,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def encode_field(field, :float) do
     use Bitwise, only_operators: true
     field = :io.format("~f", field)
-    result = if (field &&& @exp_bit_mask == @exp_bit_mask) and 
-             (field &&& @signif_bit_mask) != 0 do
-            result = 0x7fc00000;
-    end
-    %SnappyData.Thrift.ColumnValue{float_val: result}
+    %SnappyData.Thrift.ColumnValue{float_val: :erlang.float_to_binary(field)}
   end
   def decode(rows, columns), do: decode(rows, columns, [])
   def decode([row | rows], columns, acc) do
