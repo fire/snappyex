@@ -40,6 +40,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def encode_field(field, :integer) do
     %SnappyData.Thrift.ColumnValue{i32_val: field}
   end
+  def encode_field(field, :bigint) do
+    %SnappyData.Thrift.ColumnValue{i64_val: field}
+  end
   def encode_field(field, :varchar) do
     %SnappyData.Thrift.ColumnValue{clob_val:
       %SnappyData.Thrift.ClobChunk{

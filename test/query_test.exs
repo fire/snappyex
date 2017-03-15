@@ -27,9 +27,9 @@ defmodule QueryTest do
 
   test "encode basic types", context do
     query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_ENCODE", [])
-    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double)", [])
-    assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body, f, d) VALUES (?, ?, ?, ?, ?)", [1, "Along came a spider", "This is a book", 42, 42.4242])
-    assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE", [])
+    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double, b bigint)", [])
+    assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body, f, d, b) VALUES (?, ?, ?, ?, ?, ?)", [1, "Along came a spider", "This is a book", 42, 42.4242, 1234])
+    assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242, 1234]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE", [])
     query("DROP TABLE SNAPPYEX_TEST.TEST_ENCODE", [])
   end
 
