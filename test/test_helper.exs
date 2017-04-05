@@ -61,7 +61,7 @@ defmodule Snappyex.TestHelper do
   end
 
   def snappydata_properties() do
-     %{"load-balance" => "false", "sync-commits" => "true"}
+    %{"load-balance" => "false", "sync-commits" => "true"}
   end
 
   def capture_log(fun) do

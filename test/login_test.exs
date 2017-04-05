@@ -5,10 +5,10 @@ defmodule LoginTest do
   alias Snappyex, as: S
   require SnappyData.Thrift.SecurityMechanism
   setup do
-    opts = [ hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), 
-             port: snappydata_port(), user_name: "APP", password: "APP",  security: SnappyData.Thrift.SecurityMechanism.plain, 
+    opts = [ hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
+             port: snappydata_port(), username: "APP", password: "APP",  security: SnappyData.Thrift.SecurityMechanism.plain, 
      token_size: 16, use_string_for_decimal: false, properties: snappydata_properties()]
-    {:ok, pid} = S.start_link(opts)    
+    {:ok, pid} = S.start_link(opts)
     Process.flag(:trap_exit, true)
     {:ok, [pid: pid]}
   end
