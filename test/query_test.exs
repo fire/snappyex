@@ -12,7 +12,7 @@ defmodule QueryTest do
   require SnappyData.Thrift.SecurityMechanism
 
   setup do
-    opts = [ backoff_type: :stop, sync_connect: true, host: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), 
+    opts = [ backoff_type: :stop, sync_connect: true, hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), 
              port: snappydata_port(), user_name: "APP", password: "APP",  security: SnappyData.Thrift.SecurityMechanism.plain, 
      token_size: 16, use_string_for_decimal: false, properties: snappydata_properties()]
     {:ok, pid} = S.start_link(opts)    

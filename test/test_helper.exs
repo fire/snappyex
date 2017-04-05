@@ -53,7 +53,7 @@ defmodule Snappyex.TestHelper do
   end
 
   def snappydata_address() do
-    Application.fetch_env!(:snappyex, :host) 
+    Application.fetch_env!(:snappyex, :hostname) 
   end
 
   def snappydata_port() do
