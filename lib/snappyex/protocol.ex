@@ -31,7 +31,7 @@ defmodule Snappyex.Protocol do
     {:ok, client_host_name} = :inet.gethostname
     client_host_name = to_string(client_host_name)
     {:ok, properties} = Client.open_connection_with_options(pid, %SnappyData.Thrift.OpenConnectionArgs{client_host_name: client_host_name, client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), user_name: user_name, password: password, security: security, properties: conn_properties, token_size: token_size, use_string_for_decimal: use_string_for_decimal, for_xa: false}, gen_server_opts: [timeout: @time_out])
-    state = [process_id: pid, connection_id: properties.conn_id, client_host_name: properties.client_host_name, client_id: properties.client_id, cache: Snappyex.Cache.new(), token: properties.token, opts: opts]
+    state = [process_id: pid, connection_id: properties.conn_id, client_host_name: properties.client_host_name, client_id: properties.client_id, cache: Snappyex.Cache.new(), token: properties.token]
     {:ok, state}
   end
 
@@ -80,7 +80,7 @@ defmodule Snappyex.Protocol do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
     {:ok, flags} = Map.fetch(opts, :flags)
-    {:ok, connection_id} = Keyword.fetch(state, :connection_id)  
+    {:ok, connection_id} = Keyword.fetch(state, :connection_id)
     case Client.begin_transaction_with_options(process_id, connection_id, @repeatable_read, flags, token,  gen_server_opts: [timeout: @time_out]) do
       {:ok, result} ->
         {:ok, result, state}
@@ -136,9 +136,9 @@ defmodule Snappyex.Protocol do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
     case execute_lookup(query, state) do
-      {:execute, statement_id, _query} ->          
+      {:execute, statement_id, _query} ->
         case Client.execute_prepared_with_options(process_id, statement_id, params, Map.new, %SnappyData.Thrift.StatementAttrs{}, token, gen_server_opts: [timeout: @time_out]) do
-          {:ok, statement} ->            
+          {:ok, statement} ->
             result = Map.new
             result = Map.put_new(result, :rows, statement.result_set)
             {:ok, result, state}
@@ -239,7 +239,7 @@ defmodule Snappyex.Protocol do
             end
             query = unless query.types == nil do
                query
-       else 
+       else
         %{query | types: []}
      end
     query = prepare_insert(prepared_result.statement_id, num_params, %Snappyex.Query{query | ref: make_ref()}, state)
