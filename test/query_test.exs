@@ -20,6 +20,10 @@ defmodule QueryTest do
     {:ok, [pid: pid]}
   end
 
+  test "select 1", context do
+    assert [[1]] = query(["select 1"], [])
+  end
+
   test "iodata", context do
     params = []
     assert [[123]] == query(["S", ?E, ["LEC"|"T"], " ", '123'], params)
