@@ -1,5 +1,5 @@
 use Mix.Config
 
 config :snappyex,
-  hostname: "192.168.0.35",
+  hostname: "localhost",
   port: 1531

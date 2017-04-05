@@ -53,17 +53,17 @@ defmodule Snappyex.TestHelper do
   end
 
   def snappydata_address() do
-    Application.fetch_env!(:snappyex, :hostname) 
+    System.get_env("SNAPPYDATA_HOSTNAME") || Application.fetch_env!(:snappyex, :hostname)
   end
 
   def snappydata_port() do
-    Application.fetch_env!(:snappyex, :port)
+    System.get_env("SNAPPYDATA_PORT") || Application.fetch_env!(:snappyex, :port)
   end
 
   def snappydata_properties() do
      %{"load-balance" => "false", "sync-commits" => "true"}
   end
-  
+
   def capture_log(fun) do
     Logger.remove_backend(:console)
     fun.()

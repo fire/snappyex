@@ -8,9 +8,11 @@ defmodule Snappyex.Protocol do
 
   def connect(opts) do
     Process.flag(:trap_exit, true)
-    {:ok, host} = Keyword.fetch(opts, :hostname)
+    {:ok, hostname} = Keyword.fetch(opts, :hostname)
     {:ok, port} = Keyword.fetch(opts, :port)
-    status = Client.start_link(host, port)
+    port = to_string(port)
+    port = port |> String.to_integer
+    status = Client.start_link(hostname, port)
     connect_start_link(status, opts)
   end
 
