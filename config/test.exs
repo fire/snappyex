@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :snappyex,
-  hostname: "192.168.0.23",
-  port: 31292
+  hostname: "localhost",
+  port: 1531
 config :tzdata,
   autoupdate: :disabled
