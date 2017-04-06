@@ -206,3 +206,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     query
   end
 end
+
+defimpl String.Chars, for: Snappyex.Query do
+  def to_string(%Snappyex.Query{statement: statement}) do
+    IO.iodata_to_binary(statement)
+  end
+end
