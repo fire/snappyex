@@ -6,7 +6,7 @@ defmodule Snappyex.Query do
 
   def query_columns_list(map) do
     columns = Enum.reduce(
-      map, [], fn (x, acc) -> 
+      map, [], fn (x, acc) ->
           if is_map(x) and Map.has_key?(x, :name) do
             {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(x.type)
             [type | acc]
@@ -21,16 +21,14 @@ end
 
 defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
-  @exp_bit_mask 0x80000000
-  @signif_bit_mask 0x007fffff
   use Timex
   def describe(%Query{} = query, _opts) do
     query
   end
   def encode(%Query{types: types}, params, _opts) do
     encode(types, params)
-  end  
-  def encode(types, params) do 
+  end
+  def encode(types, params) do
     %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
   end
   def encode_values([type | types], [param | params], acc) do
@@ -79,26 +77,26 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def decode([], _, acc), do: Enum.reverse(acc)
   def decode(%Query{decoders: nil, columns: _columns}, res, _) do
     _mapper = fn x -> x end
-    {:ok, rows} = Map.fetch(res, :rows)    
+    {:ok, rows} = Map.fetch(res, :rows)
     rows = decode_row_set(rows)
-    num_rows = case rows do 
+    num_rows = case rows do
       nil -> 0
       _ -> length(rows)
     end
     %Snappyex.Result{rows: rows, num_rows: num_rows}
   end
-  def decode_row([field | rows], [decoder | cols], acc) do 
+  def decode_row([field | rows], [decoder | cols], acc) do
     {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(decoder)
     decode_row(rows, cols, [decode_field(field, type) | acc])
   end
   def decode_row([], [], acc), do: Enum.reverse(acc)
   def decode_field(value, :boolean), do: value.bool_val
   def decode_field(value, :tinyint), do: value.i16_val
-  def decode_field(value, :integer) do 
+  def decode_field(value, :integer) do
     value.i32_val
   end
   def decode_field(value, :bigint), do: value.i64_val
-  def decode_field(value, :float) do 
+  def decode_field(value, :float) do
   # http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b27/java/lang/Float.java#Float.floatToIntBits%28float%29
   #  public static int floatToIntBits(float value) {
   #       int result = floatToRawIntBits(value);
@@ -120,9 +118,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     bits = value.float_val
     s = if (bits >>> 31) == 0 do
       1
-    else 
+    else
       -1
-    end 
+    end
     e = (bits >>> 23) &&& 0xff
     m = if e == 0 do
       (bits &&& 0x7fffff) <<< 1
@@ -130,18 +128,18 @@ defimpl DBConnection.Query, for: Snappyex.Query do
       (bits &&& 0x7fffff) ||| 0x800000
     end
     s*m*:math.pow(2,e-150)
-  end  
+  end
 #  def decode_field(column_value, :real), do: elem(column_value, @decimal_val)
   def decode_field(value, :double), do: value.double_val
-#  def decode_field(value, :decimal) do 
+#  def decode_field(value, :decimal) do
 #    %SnappyData.Thrift.Decimal{magnitude: _magnitude, scale: _scale, signum: _signum} = value.decimal_val
 #    #decode_numeric(signum, magnitude)
-#  end  
+#  end
 
   def decode_field(value, :char), do: value.string_val
   def decode_field(value, :varchar), do: value.string_val
 #  def decode_field(column_value, :longvarchar), do: elem(column_value, @string_val)
-  def decode_field(value, :date) do 
+  def decode_field(value, :date) do
     {:ok, date} = DateTime.from_unix(value.date_val)
     date
   end
@@ -166,7 +164,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def decode_field(value, :longvarbinary), do: value.binary_val
   def decode_field(value, :longvarchar), do: value.string_val
   def decode_field(value, :blob), do: decode_blob(value.blob_val)
-  def decode_field(value, :clob) do 
+  def decode_field(value, :clob) do
     decode_clob(value.clob_val)
   end
 #  def decode_field(column_value, :sqlxml), do: elem(column_value, @string_val)
@@ -197,11 +195,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     nil
   end
 
-  def decode_row_set(%SnappyData.Thrift.RowSet{rows: rows, metadata: metadata}) do    
+  def decode_row_set(%SnappyData.Thrift.RowSet{rows: rows, metadata: metadata}) do
     columns = Enum.map(metadata, fn descriptor ->
       %SnappyData.Thrift.ColumnDescriptor{type: ordinal} = descriptor
-      ordinal      
-    end)    
+      ordinal
+    end)
     decode(rows, columns)
   end
   def parse(query, _) do
