@@ -139,8 +139,7 @@ defmodule Snappyex.Protocol do
       {:execute, statement_id, _query} ->
         case Client.execute_prepared_with_options(process_id, statement_id, params, Map.new, %SnappyData.Thrift.StatementAttrs{}, token, gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
-            result = Map.new
-            result = Map.put_new(result, :rows, statement.result_set)
+            result = Map.put_new(Map.new, :rows, statement.result_set)
             {:ok, result, state}
           {:error, error} ->
             {:disconnect, error, state}
