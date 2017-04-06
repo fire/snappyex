@@ -55,7 +55,7 @@ defmodule Snappyex.Protocol do
   def ping(state) do
     query  = %Snappyex.Query{statement: 'SELECT 1'}
     {:ok, prepared_query, state} = Snappyex.Protocol.handle_prepare(query, [], state)
-    case Snappyex.Protocol.handle_execute(prepared_query, [] , [], state) do
+    case Snappyex.Protocol.handle_execute(prepared_query, %SnappyData.Thrift.Row{values: []}, nil, state) do
       {:ok, _, state} ->
         {:ok, state}
       {:disconnect, err, state} ->
