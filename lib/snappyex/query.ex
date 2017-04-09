@@ -25,16 +25,24 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def describe(%Query{} = query, _opts) do
     query
   end
+  def encode(%Query{types: nil} = query, _params, _) do
+    raise ArgumentError, "query #{inspect query} has not been prepared"
+  end
+  def encode(%Query{types: []} = query, _params, _) do
+    raise ArgumentError, "query #{inspect query} does not have matching input parameters to types"
+  end
   def encode(%Query{types: types}, params, _opts) do
     encode(types, params)
   end
   def encode(types, params) do
     %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
   end
+
   def encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
   end
   def encode_values([], [], acc), do: Enum.reverse(acc)
+
   def encode_field(field, :integer) do
     %SnappyData.Thrift.ColumnValue{i32_val: field}
   end

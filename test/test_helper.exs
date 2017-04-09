@@ -16,7 +16,7 @@ defmodule Snappyex.TestHelper do
   defmacro prepare(name, stat, params, opts \\ []) do
     quote do
       case Snappyex.prepare(var!(context)[:pid], unquote(name), unquote(stat),
-                                     unquote(params), unquote(opts)) do
+                                     unquote(opts)) do
         {:ok, query} -> 
           query
         {:error, err} -> err
