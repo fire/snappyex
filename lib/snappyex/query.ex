@@ -37,6 +37,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def encode(types, params) do
     %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
   end
+  def encode_values([], [param | params], acc) when is_integer(param) do
+    encode_values([], [], [encode_field(param, :bigint) | acc])
+  end
   def encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
   end

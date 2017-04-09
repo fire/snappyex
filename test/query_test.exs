@@ -30,7 +30,7 @@ defmodule QueryTest do
     nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double, b bigint, curr timestamp)", [])
     assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body, f, d, b, curr) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, "Along came a spider", "This is a book", 42, 42.4242, 1234, Timex.to_datetime({{0000,  12,  30}, {0, 0, 0}}, "Etc/UTC")])
     {:ok, date} =DateTime.from_naive(~N"0000-12-30T00:00:00Z", "Etc/UTC")
-    assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242, 1234, date]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE", [])
+    assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242, 1234, date]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE WHERE id = ?", [1])
     query("DROP TABLE SNAPPYEX_TEST.TEST_ENCODE", [])
   end
 
