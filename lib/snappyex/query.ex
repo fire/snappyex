@@ -37,12 +37,10 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def encode(types, params) do
     %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
   end
-
   def encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
   end
   def encode_values([], [], acc), do: Enum.reverse(acc)
-
   def encode_field(field, :integer) do
     %SnappyData.Thrift.ColumnValue{i32_val: field}
   end
