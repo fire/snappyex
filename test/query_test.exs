@@ -20,6 +20,10 @@ defmodule QueryTest do
     {:ok, [pid: pid]}
   end
 
+  test "select 1", context do
+    assert [[1]] = query(["select 1"], [])
+  end
+
   test "iodata", context do
     params = []
     assert [[123]] == query(["S", ?E, ["LEC"|"T"], " ", '123'], params)
@@ -32,10 +36,6 @@ defmodule QueryTest do
     {:ok, date} =DateTime.from_naive(~N"0000-12-30T00:00:00Z", "Etc/UTC")
     assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242, 1234, date]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE WHERE id = ?", [1])
     query("DROP TABLE SNAPPYEX_TEST.TEST_ENCODE", [])
-  end
-
-  test "encode select 1 with prepared statement", context do
-    assert [[nil]] ==  query("SELECT ?", [1])
   end
 
   test "decode basic types", context do

@@ -173,7 +173,11 @@ defmodule Snappyex.Protocol do
   end
 
   def handle_prepare(query, _opts, state) do
-    query = %{query | types: []}
+    query = unless query.types == nil do
+       query
+    else
+        %{query | types: []}
+    end
     case prepare_lookup(query, state) do
       {:prepare, query} ->
         prepare(query, state)
