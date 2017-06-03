@@ -22,6 +22,7 @@ defmodule Snappyex.Mixfile do
 
   defp deps do
     [{:dialyxir, "~> 0.3.5", only: [:dev]},
+     {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
      {:db_connection, "~> 1.1.0"},
      {:thrift, github: "pinterest/elixir-thrift", ref: "thrift_tng"},
 #     {:decimal, "~> 1.3.1"},
