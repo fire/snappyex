@@ -1,4 +1,7 @@
 defmodule Snappyex do
+  @moduledoc"""
+  SnappyData Driver for Elixir
+  """
 
   alias Snappyex.Query
   @timeout 15_000
@@ -15,14 +18,14 @@ defmodule Snappyex do
   end
 
   def prepare_execute(conn, name, statement, params, opts \\ []) do
-    query = %Query{statement: statement}    
-    query = %Query{query | name: name}  
+    query = %Query{statement: statement}
+    query = %Query{query | name: name}
     DBConnection.prepare_execute(conn, query, params, defaults(opts))
   end
 
   def prepare(conn, name, statement, _params, opts \\ []) do
     query = %Query{statement: statement}
-    query = %Query{query | name: name}  
+    query = %Query{query | name: name}
     DBConnection.prepare(conn, query, defaults(opts))
   end
 
