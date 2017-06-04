@@ -1,9 +1,9 @@
-# https://github.com/xerions/mariaex/blob/78d30cc3c0d027f5f4be4f60135ec857a7b10e5b/lib/mariaex/cache.ex
+# https://github.com/xerions/mariaex
 # Apache License
 defmodule Snappyex.Cache do
   @moduledoc false
 
-  def new() do
+  def new do
     :ets.new(:cache, [:public])
   end
 
