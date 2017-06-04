@@ -1,14 +1,26 @@
-# Portions from https://github.com/elixir-ecto/postgrex/blob/af1b62ae06121f02f2d63f1446eb99b962884edb/lib/postgrex/extensions/numeric.ex
+# Portions from https://github.com/elixir-ecto/postgrex/blob/
+# af1b62ae06121f02f2d63f1446eb99b962884edb/lib/postgrex/
+# extensions/numeric.ex
 
 defmodule Snappyex.Query do
-  defstruct [:ref, :name, :statement, :param_formats, :encoders, :columns, :result_set_meta_data,
-             :result_formats, :num_params, :decoders, :types]
+  alias SnappyData.Thrift.SnappyType, as: SnappyType
+  defstruct [:ref,
+             :name,
+             :statement,
+             :param_formats,
+             :encoders,
+             :columns,
+             :result_set_meta_data,
+             :result_formats,
+             :num_params,
+             :decoders,
+             :types]
 
   def query_columns_list(map) do
     columns = Enum.reduce(
       map, [], fn (x, acc) ->
           if is_map(x) and Map.has_key?(x, :name) do
-            {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(x.type)
+            {:ok, type} = SnappyType.value_to_name(x.type)
             [type | acc]
           else
             acc
@@ -101,7 +113,10 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   def decode_field(value, :bigint), do: value.i64_val
   def decode_field(value, :float) do
-  # http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b27/java/lang/Float.java#Float.floatToIntBits%28float%29
+  # http://grepcode.com/file/repository.grepcode.com/
+  # java/root/jdk/openjdk/6-b27/java/lang/
+  # Float.java#Float.floatToIntBits%28float%29
+  #
   #  public static int floatToIntBits(float value) {
   #       int result = floatToRawIntBits(value);
   #       // Check for NaN based on values of bit fields, maximum
@@ -117,7 +132,8 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   #  int m = (e == 0) ?
   #                  (bits & 0x7fffff) << 1 :
   #                  (bits & 0x7fffff) | 0x800000;
-  # Then the floating-point result equals the value of the mathematical expression s·m·2^e-150.
+  # Then the floating-point result equals the value of the mathematical
+  # expression s·m·2^e-150.
     use Bitwise
     bits = value.float_val
     s = if (bits >>> 31) == 0 do
@@ -131,18 +147,21 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     else
       (bits &&& 0x7fffff) ||| 0x800000
     end
-    s*m*:math.pow(2,e-150)
+    s * m * :math.pow(2, e - 150)
   end
 #  def decode_field(column_value, :real), do: elem(column_value, @decimal_val)
   def decode_field(value, :double), do: value.double_val
 #  def decode_field(value, :decimal) do
-#    %SnappyData.Thrift.Decimal{magnitude: _magnitude, scale: _scale, signum: _signum} = value.decimal_val
+#    %SnappyData.Thrift.Decimal{magnitude: _magnitude,
+#    scale: _scale,
+#    signum: _signum} = value.decimal_val
 #    #decode_numeric(signum, magnitude)
 #  end
 
   def decode_field(value, :char), do: value.string_val
   def decode_field(value, :varchar), do: value.string_val
-#  def decode_field(column_value, :longvarchar), do: elem(column_value, @string_val)
+  # def decode_field(column_value, :longvarchar),
+  # do: elem(column_value, @string_val)
   def decode_field(value, :date) do
     {:ok, date} = DateTime.from_unix(value.date_val)
     date
@@ -159,7 +178,8 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   def decode_field(value, :timestamp) do
     # TODO Extract nanoseconds and add it to time
-    # https://github.com/elixir-ecto/postgrex/blob/master/lib/postgrex/extensions/timestamp.ex#L24
+    # https://github.com/elixir-ecto/postgrex/
+    # blob/master/lib/postgrex/extensions/timestamp.ex#L24
     {:ok, timestamp} = DateTime.from_unix(value.timestamp_val)
     timestamp
   end
@@ -175,7 +195,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
 #  def decode_field(column_value, :array), do: elem(column_value, )
 #  def decode_field(column_value, :map), do: elem(column_value, )
 #  def decode_field(column_value, :struct), do: elem(column_value, )
-  def decode_field(value, :other), do: raise ArgumentError, "can not be decoded: " <> IO.inspect(value)
+  def decode_field(value, :other), do: raise ArgumentError, "can not be decoded: " <> inspect(value)
   def decode_field(value, :json_object), do: value.json_val
   def decode_field(value, :java_object), do: value.java_val
 
