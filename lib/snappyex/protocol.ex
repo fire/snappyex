@@ -273,7 +273,7 @@ defmodule Snappyex.Protocol do
   defp prepare_lookup(%Query{name: name} = query, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
     case Cache.take(cache, name) do
-      {statement_id, ref} when is_integer(statement_id) ->
+      {statement_id, _ref} when is_integer(statement_id) ->
         {:close_prepare, statement_id, query}
       nil ->
         {:prepare, query}
