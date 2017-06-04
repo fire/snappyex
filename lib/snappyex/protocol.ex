@@ -3,6 +3,9 @@ defmodule Snappyex.Protocol do
   @behaviour DBConnection
   @repeatable_read 3
   require Logger
+  alias Snappyex.Query, as: Query
+  alias Snappyex.Cache, as: Cache
+  alias SnappyData.Thrift, as: Thrift
   alias SnappyData.Thrift.SnappyDataService.Binary.Framed.Client
   @time_out 5_000
 
@@ -26,12 +29,12 @@ defmodule Snappyex.Protocol do
     {:ok, user_name} = Keyword.fetch(opts, :username)
     {:ok, password} = Keyword.fetch(opts, :password)
     require SnappyData.Thrift.SecurityMechanism
-    security = Keyword.get(opts, :security, SnappyData.Thrift.SecurityMechanism.plain)
+    security = Keyword.get(opts, :security, Thrift.SecurityMechanism.plain)
     conn_properties = Keyword.get(opts, :properties, %{"load-balance" => "false", "sync-commits" => "true"})
     {:ok, client_host_name} = :inet.gethostname
     client_host_name = to_string(client_host_name)
-    {:ok, properties} = Client.open_connection_with_options(pid, %SnappyData.Thrift.OpenConnectionArgs{client_host_name: client_host_name, client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), user_name: user_name, password: password, security: security, properties: conn_properties, token_size: token_size, use_string_for_decimal: use_string_for_decimal, for_xa: false}, gen_server_opts: [timeout: @time_out])
-    state = [process_id: pid, connection_id: properties.conn_id, client_host_name: properties.client_host_name, client_id: properties.client_id, cache: Snappyex.Cache.new(), token: properties.token]
+    {:ok, properties} = Client.open_connection_with_options(pid, %Thrift.OpenConnectionArgs{client_host_name: client_host_name, client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), user_name: user_name, password: password, security: security, properties: conn_properties, token_size: token_size, use_string_for_decimal: use_string_for_decimal, for_xa: false}, gen_server_opts: [timeout: @time_out])
+    state = [process_id: pid, connection_id: properties.conn_id, client_host_name: properties.client_host_name, client_id: properties.client_id, cache: Cache.new(), token: properties.token]
     {:ok, state}
   end
 
@@ -66,15 +69,15 @@ defmodule Snappyex.Protocol do
   defp prepare_insert(statement_id, num_params, %Snappyex.Query{name: name, ref: ref} = query, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
     ref = ref || make_ref()
-    true = Snappyex.Cache.insert_new(cache, name, statement_id, ref)
+    true = Cache.insert_new(cache, name, statement_id, ref)
     %{query | ref: ref, num_params: num_params}
   end
 
   def handle_commit(_opts, state) do
     query = %Snappyex.Query{statement: 'COMMIT'}
-    {:ok, prepared_query, state} = Snappyex.Protocol.handle_prepare(query, [], state)
+    {:ok, prepared_query, state} = handle_prepare(query, [], state)
     params = Map.put_new(Map.new, :params, %SnappyData.Thrift.Row{values: []})
-    Snappyex.Protocol.handle_execute(prepared_query, params , [], state)
+    handle_execute(prepared_query, params , [], state)
   end
   def handle_begin(opts, state) do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
@@ -103,7 +106,7 @@ defmodule Snappyex.Protocol do
 
   defp close_lookup(%Snappyex.Query{name: name}, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
-    case Snappyex.Cache.take(cache, name) do
+    case Cache.take(cache, name) do
       {statement_id, _ref} when is_integer(statement_id) ->
         {:close, statement_id}
       nil ->
@@ -154,18 +157,18 @@ defmodule Snappyex.Protocol do
      end
     end
 
- defp prepare_execute_lookup(%Snappyex.Query{name: name}, state) do
+ defp prepare_execute_lookup(%Query{name: name}, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
-    Snappyex.Cache.id(cache, name)
+    Cache.id(cache, name)
   end
 
-  defp execute_lookup(%Snappyex.Query{name: name, ref: ref} = query, state) do
+  defp execute_lookup(%Query{name: name, ref: ref} = query, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
-    case Snappyex.Cache.lookup(cache, name) do
+    case Cache.lookup(cache, name) do
       {statement_id, ^ref} ->
         {:execute, statement_id, query}
       {statement_id, _} ->
-        Snappyex.Cache.delete(cache, name)
+        Cache.delete(cache, name)
         {:close_prepare_execute, statement_id, query}
       nil ->
         {:prepare_execute, query}
@@ -216,13 +219,13 @@ defmodule Snappyex.Protocol do
                    nil -> 0
                    result -> Enum.count(result)
                  end
-    query = prepare_insert(prepared_result.statement_id, num_params, %Snappyex.Query{query | ref: make_ref(), param_formats: prepared_result.parameter_meta_data, result_formats: prepared_result.result_set_meta_data, types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}, state)
+    query = prepare_insert(prepared_result.statement_id, num_params, %Query{query | ref: make_ref(), param_formats: prepared_result.parameter_meta_data, result_formats: prepared_result.result_set_meta_data, types: Query.query_columns_list(prepared_result.parameter_meta_data)}, state)
     {:ok, query, state}
   end
 
-  defp prepare_lookup(%Snappyex.Query{name: name} = query, state) do
+  defp prepare_lookup(%Query{name: name} = query, state) do
     {:ok, cache} = Keyword.fetch(state, :cache)
-    case Snappyex.Cache.take(cache, name) do
+    case Cache.take(cache, name) do
       {statement_id, ref} when is_integer(statement_id) ->
         {:close_prepare, statement_id, query}
       nil ->
