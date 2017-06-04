@@ -33,8 +33,23 @@ defmodule Snappyex.Protocol do
     conn_properties = Keyword.get(opts, :properties, %{"load-balance" => "false", "sync-commits" => "true"})
     {:ok, client_host_name} = :inet.gethostname
     client_host_name = to_string(client_host_name)
-    {:ok, properties} = Client.open_connection_with_options(pid, %Thrift.OpenConnectionArgs{client_host_name: client_host_name, client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), user_name: user_name, password: password, security: security, properties: conn_properties, token_size: token_size, use_string_for_decimal: use_string_for_decimal, for_xa: false}, gen_server_opts: [timeout: @time_out])
-    state = [process_id: pid, connection_id: properties.conn_id, client_host_name: properties.client_host_name, client_id: properties.client_id, cache: Cache.new(), token: properties.token]
+    {:ok, properties} = Client.open_connection_with_options(pid,
+      %Thrift.OpenConnectionArgs{client_host_name: client_host_name,
+                                 client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
+                                 user_name: user_name,
+                                 password: password,
+                                 security: security,
+                                 properties: conn_properties,
+                                 token_size: token_size,
+                                 use_string_for_decimal: use_string_for_decimal,
+                                 for_xa: false},
+      gen_server_opts: [timeout: @time_out])
+    state = [process_id: pid,
+             connection_id: properties.conn_id,
+             client_host_name: properties.client_host_name,
+             client_id: properties.client_id,
+             cache: Cache.new(),
+             token: properties.token]
     {:ok, state}
   end
 
@@ -57,8 +72,13 @@ defmodule Snappyex.Protocol do
   {:disconnect, Exception.t, new_state :: any}
   def ping(state) do
     query  = %Snappyex.Query{statement: 'SELECT 1'}
-    {:ok, prepared_query, state} = Snappyex.Protocol.handle_prepare(query, [], state)
-    case Snappyex.Protocol.handle_execute(prepared_query, %SnappyData.Thrift.Row{values: []}, nil, state) do
+    {:ok, prepared_query, state} = Snappyex.Protocol.handle_prepare(query,
+      [],
+      state)
+    case Snappyex.Protocol.handle_execute(prepared_query,
+          %SnappyData.Thrift.Row{values: []},
+          nil,
+          state) do
       {:ok, _, state} ->
         {:ok, state}
       {:disconnect, err, state} ->
@@ -84,7 +104,12 @@ defmodule Snappyex.Protocol do
     {:ok, token} = Keyword.fetch(state, :token)
     {:ok, flags} = Map.fetch(opts, :flags)
     {:ok, connection_id} = Keyword.fetch(state, :connection_id)
-    case Client.begin_transaction_with_options(process_id, connection_id, @repeatable_read, flags, token,  gen_server_opts: [timeout: @time_out]) do
+    case Client.begin_transaction_with_options(process_id,
+          connection_id,
+          @repeatable_read,
+          flags,
+          token,
+          gen_server_opts: [timeout: @time_out]) do
       {:ok, result} ->
         {:ok, result, state}
       {:error, error} ->
@@ -140,7 +165,13 @@ defmodule Snappyex.Protocol do
     {:ok, token} = Keyword.fetch(state, :token)
     case execute_lookup(query, state) do
       {:execute, statement_id, _query} ->
-        case Client.execute_prepared_with_options(process_id, statement_id, params, Map.new, %SnappyData.Thrift.StatementAttrs{}, token, gen_server_opts: [timeout: @time_out]) do
+        case Client.execute_prepared_with_options(process_id,
+              statement_id,
+              params,
+              Map.new,
+              %SnappyData.Thrift.StatementAttrs{},
+              token,
+              gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
             result = Map.put_new(Map.new, :rows, statement.result_set)
             {:ok, result, state}
@@ -176,10 +207,10 @@ defmodule Snappyex.Protocol do
   end
 
   def handle_prepare(query, _opts, state) do
-    query = unless query.types == nil do
-       query
+    query = if query.types do
+      %{query | types: []}
     else
-        %{query | types: []}
+      query
     end
     case prepare_lookup(query, state) do
       {:prepare, query} ->
@@ -192,7 +223,11 @@ defmodule Snappyex.Protocol do
   defp close_prepare(statement_id, %Snappyex.Query{statement: _statement} = query, state) do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
-    Client.close_statement_with_options(process_id, statement_id, token, gen_server_opts: [timeout: @time_out])
+    Client.close_statement_with_options(
+      process_id,
+      statement_id,
+      token,
+      gen_server_opts: [timeout: @time_out])
     prepare(query, state)
   end
 
@@ -205,8 +240,13 @@ defmodule Snappyex.Protocol do
         :statement_attributes,
         %SnappyData.Thrift.StatementAttrs{})
       case Client.prepare_statement_with_options(
-        process_id, connection_id, to_string(query.statement), output_parameters,
-        nil, token, gen_server_opts: [timeout: @time_out]) do
+            process_id,
+            connection_id,
+            to_string(query.statement),
+            output_parameters,
+            nil,
+            token,
+            gen_server_opts: [timeout: @time_out]) do
         {:ok, prepared_result} ->
             prepare_result(query, prepared_result, state)
         {:error, error} ->
@@ -219,7 +259,14 @@ defmodule Snappyex.Protocol do
                    nil -> 0
                    result -> Enum.count(result)
                  end
-    query = prepare_insert(prepared_result.statement_id, num_params, %Query{query | ref: make_ref(), param_formats: prepared_result.parameter_meta_data, result_formats: prepared_result.result_set_meta_data, types: Query.query_columns_list(prepared_result.parameter_meta_data)}, state)
+    query = prepare_insert(prepared_result.statement_id,
+      num_params,
+      %Query{query | ref: make_ref(),
+             param_formats: prepared_result.parameter_meta_data,
+             result_formats: prepared_result.result_set_meta_data,
+             types: Query.query_columns_list(
+               prepared_result.parameter_meta_data)},
+      state)
     {:ok, query, state}
   end
 
