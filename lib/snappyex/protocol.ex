@@ -213,35 +213,10 @@ defmodule Snappyex.Protocol do
 
   defp prepare_result(query, prepared_result, state) do
     num_params = case prepared_result.result_set_meta_data do
-      nil -> 0
-      result -> Enum.count(result)
-    end
-    query = unless query.types == nil do
-         query
-      else
-         %{query | types: []}
-    end
-    query = unless prepared_result.parameter_meta_data == nil do
-              %{query | param_formats: prepared_result.parameter_meta_data}
-            else
-              %{query | param_formats: []}
-            end
-            query = unless prepared_result.result_set_meta_data == nil do
-              %{query | result_formats: prepared_result.result_set_meta_data}
-            else
-              %{query | result_formats: []}
-            end
-            query = unless query.param_formats == nil do
-              %{query | types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}
-            else
-              %{query | types: []}
-            end
-            query = unless query.types == nil do
-               query
-       else
-        %{query | types: []}
-     end
-    query = prepare_insert(prepared_result.statement_id, num_params, %Snappyex.Query{query | ref: make_ref()}, state)
+                   nil -> 0
+                   result -> Enum.count(result)
+                 end
+    query = prepare_insert(prepared_result.statement_id, num_params, %Snappyex.Query{query | ref: make_ref(), param_formats: prepared_result.parameter_meta_data, result_formats: prepared_result.result_set_meta_data, types: Snappyex.Query.query_columns_list(prepared_result.parameter_meta_data)}, state)
     {:ok, query, state}
   end
 
