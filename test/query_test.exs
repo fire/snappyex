@@ -53,7 +53,7 @@ defmodule QueryTest do
     assert [["ẽric"]] == query("SELECT 'ẽric'", params)    
     assert [["ẽric"]] == query("SELECT CAST('ẽric' AS VARCHAR(10))", params)
     assert  [[%SnappyData.Thrift.BlobChunk{chunk: "\\001\\002\\003", last: true,
-              lob_id: nil, offset: 0, total_length: 12}]] 
+              lob_id: nil, offset: nil, total_length: nil}]] 
               == query("SELECT CAST('\\001\\002\\003' AS BINARY)", params)
   end
  
