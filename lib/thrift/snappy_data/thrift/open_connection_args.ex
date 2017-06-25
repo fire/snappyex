@@ -15,6 +15,7 @@ defmodule(SnappyData.Thrift.OpenConnectionArgs) do
     %__MODULE__{}
   end
   defmodule(BinaryProtocol) do
+    @moduledoc(false)
     def(deserialize(binary)) do
       deserialize(binary, %SnappyData.Thrift.OpenConnectionArgs{})
     end

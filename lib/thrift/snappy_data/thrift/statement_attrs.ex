@@ -17,12 +17,15 @@ defmodule(SnappyData.Thrift.StatementAttrs) do
   _ = "15: bool poolable"
   _ = "16: bool do_escape_processing"
   _ = "17: map<snappydata.TransactionAttribute,bool> pending_transaction_attrs"
-  defstruct(result_set_type: nil, updatable: nil, hold_cursors_over_commit: nil, require_auto_inc_cols: nil, auto_inc_columns: nil, auto_inc_column_names: nil, batch_size: 1024, fetch_reverse: nil, lob_chunk_size: nil, max_rows: nil, max_field_size: nil, timeout: nil, cursor_name: nil, possible_duplicate: nil, poolable: nil, do_escape_processing: nil, pending_transaction_attrs: nil)
+  _ = "18: set<i32> bucket_ids"
+  _ = "19: string bucket_ids_table"
+  defstruct(result_set_type: nil, updatable: nil, hold_cursors_over_commit: nil, require_auto_inc_cols: nil, auto_inc_columns: nil, auto_inc_column_names: nil, batch_size: 1024, fetch_reverse: nil, lob_chunk_size: nil, max_rows: nil, max_field_size: nil, timeout: nil, cursor_name: nil, possible_duplicate: nil, poolable: nil, do_escape_processing: nil, pending_transaction_attrs: nil, bucket_ids: nil, bucket_ids_table: nil)
   @type(t :: %__MODULE__{})
   def(new) do
     %__MODULE__{}
   end
   defmodule(BinaryProtocol) do
+    @moduledoc(false)
     def(deserialize(binary)) do
       deserialize(binary, %SnappyData.Thrift.StatementAttrs{})
     end
@@ -101,6 +104,12 @@ defmodule(SnappyData.Thrift.StatementAttrs) do
     defp(deserialize(<<13, 17::16-signed, 8, 2, map_size::32-signed, rest::binary>>, struct)) do
       deserialize__pending_transaction_attrs__key(rest, [%{}, map_size, struct])
     end
+    defp(deserialize(<<14, 18::16-signed, 8, remaining::32-signed, rest::binary>>, struct)) do
+      deserialize__bucket_ids(rest, [[], remaining, struct])
+    end
+    defp(deserialize(<<11, 19::16-signed, string_size::32-signed, value::binary-size(string_size), rest::binary>>, acc)) do
+      deserialize(rest, %{acc | bucket_ids_table: value})
+    end
     defp(deserialize(<<field_type, _id::16-signed, rest::binary>>, acc)) do
       rest |> Thrift.Protocol.Binary.skip_field(field_type) |> deserialize(acc)
     end
@@ -125,6 +134,15 @@ defmodule(SnappyData.Thrift.StatementAttrs) do
     defp(deserialize__auto_inc_columns(_, _)) do
       :error
     end
+    defp(deserialize__bucket_ids(<<rest::binary>>, [list, 0, struct])) do
+      deserialize(rest, %{struct | bucket_ids: MapSet.new(list)})
+    end
+    defp(deserialize__bucket_ids(<<element::32-signed, rest::binary>>, [list, remaining | stack])) do
+      deserialize__bucket_ids(rest, [[element | list], remaining - 1 | stack])
+    end
+    defp(deserialize__bucket_ids(_, _)) do
+      :error
+    end
     defp(deserialize__pending_transaction_attrs__key(<<rest::binary>>, [map, 0, struct])) do
       deserialize(rest, %{struct | pending_transaction_attrs: map})
     end
@@ -143,7 +161,7 @@ defmodule(SnappyData.Thrift.StatementAttrs) do
     defp(deserialize__pending_transaction_attrs__value(_, _, _)) do
       :error
     end
-    def(serialize(%SnappyData.Thrift.StatementAttrs{result_set_type: result_set_type, updatable: updatable, hold_cursors_over_commit: hold_cursors_over_commit, require_auto_inc_cols: require_auto_inc_cols, auto_inc_columns: auto_inc_columns, auto_inc_column_names: auto_inc_column_names, batch_size: batch_size, fetch_reverse: fetch_reverse, lob_chunk_size: lob_chunk_size, max_rows: max_rows, max_field_size: max_field_size, timeout: timeout, cursor_name: cursor_name, possible_duplicate: possible_duplicate, poolable: poolable, do_escape_processing: do_escape_processing, pending_transaction_attrs: pending_transaction_attrs})) do
+    def(serialize(%SnappyData.Thrift.StatementAttrs{result_set_type: result_set_type, updatable: updatable, hold_cursors_over_commit: hold_cursors_over_commit, require_auto_inc_cols: require_auto_inc_cols, auto_inc_columns: auto_inc_columns, auto_inc_column_names: auto_inc_column_names, batch_size: batch_size, fetch_reverse: fetch_reverse, lob_chunk_size: lob_chunk_size, max_rows: max_rows, max_field_size: max_field_size, timeout: timeout, cursor_name: cursor_name, possible_duplicate: possible_duplicate, poolable: poolable, do_escape_processing: do_escape_processing, pending_transaction_attrs: pending_transaction_attrs, bucket_ids: bucket_ids, bucket_ids_table: bucket_ids_table})) do
       [case(result_set_type) do
         nil ->
           <<>>
@@ -270,6 +288,18 @@ defmodule(SnappyData.Thrift.StatementAttrs) do
                 <<1>>
             end]
           end]
+      end, case(bucket_ids) do
+        nil ->
+          <<>>
+        _ ->
+          [<<14, 18::16-signed, 8, Enum.count(bucket_ids)::32-signed>> | for(e <- bucket_ids) do
+            <<e::32-signed>>
+          end]
+      end, case(bucket_ids_table) do
+        nil ->
+          <<>>
+        _ ->
+          [<<11, 19::16-signed, byte_size(bucket_ids_table)::32-signed>> | bucket_ids_table]
       end | <<0>>]
     end
   end

@@ -10,6 +10,7 @@ defmodule(SnappyData.Thrift.LocatorService) do
       %__MODULE__{}
     end
     defmodule(BinaryProtocol) do
+      @moduledoc(false)
       def(deserialize(binary)) do
         deserialize(binary, %GetAllServersWithPreferredServerArgs{})
       end
@@ -109,6 +110,7 @@ defmodule(SnappyData.Thrift.LocatorService) do
       %__MODULE__{}
     end
     defmodule(BinaryProtocol) do
+      @moduledoc(false)
       def(deserialize(binary)) do
         deserialize(binary, %GetPreferredServerArgs{})
       end
@@ -207,6 +209,7 @@ defmodule(SnappyData.Thrift.LocatorService) do
       %__MODULE__{}
     end
     defmodule(BinaryProtocol) do
+      @moduledoc(false)
       def(deserialize(binary)) do
         deserialize(binary, %GetAllServersWithPreferredServerResponse{})
       end
@@ -280,6 +283,7 @@ defmodule(SnappyData.Thrift.LocatorService) do
       %__MODULE__{}
     end
     defmodule(BinaryProtocol) do
+      @moduledoc(false)
       def(deserialize(binary)) do
         deserialize(binary, %GetPreferredServerResponse{})
       end
@@ -436,14 +440,15 @@ defmodule(SnappyData.Thrift.LocatorService) do
             kind, reason ->
               formatted_exception = Exception.format(kind, reason, System.stacktrace())
               Logger.error("Exception not defined in thrift spec was thrown: #{formatted_exception}")
-              {:server_error, Thrift.TApplicationException.exception(message: "Server error: #{formatted_exception}", type: :internal_error)}
+              error = Thrift.TApplicationException.exception(type: :internal_error, message: "Server error: #{formatted_exception}")
+              {:server_error, error}
           rescue
             error in SnappyData.Thrift.SnappyException ->
               response = %SnappyData.Thrift.LocatorService.GetAllServersWithPreferredServerResponse{error: error}
               {:reply, Elixir.SnappyData.Thrift.LocatorService.GetAllServersWithPreferredServerResponse.BinaryProtocol.serialize(response)}
           end
         {_, extra} ->
-          raise(Thrift.TApplicationException, message: "Could not decode #{inspect(extra)}", type: :protocol_error)
+          raise(Thrift.TApplicationException, type: :protocol_error, message: "Could not decode #{inspect(extra)}")
       end
     end
     def(handle_thrift("getPreferredServer", binary_data, handler_module)) do
@@ -459,14 +464,15 @@ defmodule(SnappyData.Thrift.LocatorService) do
             kind, reason ->
               formatted_exception = Exception.format(kind, reason, System.stacktrace())
               Logger.error("Exception not defined in thrift spec was thrown: #{formatted_exception}")
-              {:server_error, Thrift.TApplicationException.exception(message: "Server error: #{formatted_exception}", type: :internal_error)}
+              error = Thrift.TApplicationException.exception(type: :internal_error, message: "Server error: #{formatted_exception}")
+              {:server_error, error}
           rescue
             error in SnappyData.Thrift.SnappyException ->
               response = %SnappyData.Thrift.LocatorService.GetPreferredServerResponse{error: error}
               {:reply, Elixir.SnappyData.Thrift.LocatorService.GetPreferredServerResponse.BinaryProtocol.serialize(response)}
           end
         {_, extra} ->
-          raise(Thrift.TApplicationException, message: "Could not decode #{inspect(extra)}", type: :protocol_error)
+          raise(Thrift.TApplicationException, type: :protocol_error, message: "Could not decode #{inspect(extra)}")
       end
     end
   end

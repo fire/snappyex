@@ -26,6 +26,7 @@ defmodule(SnappyData.Thrift.ColumnValue) do
     %__MODULE__{}
   end
   defmodule(BinaryProtocol) do
+    @moduledoc(false)
     def(deserialize(binary)) do
       deserialize(binary, %SnappyData.Thrift.ColumnValue{})
     end

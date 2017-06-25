@@ -15,6 +15,7 @@ defmodule(SnappyData.Thrift.SnappyException) do
     end
   )
   defmodule(BinaryProtocol) do
+    @moduledoc(false)
     def(deserialize(binary)) do
       deserialize(binary, %SnappyData.Thrift.SnappyException{})
     end
