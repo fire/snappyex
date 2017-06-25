@@ -108,9 +108,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def decode_row([], [], acc), do: Enum.reverse(acc)
   def decode_field(value, :boolean), do: value.bool_val
   def decode_field(value, :tinyint), do: value.i16_val
-  def decode_field(value, :integer) do
-    value.i32_val
-  end
+  def decode_field(value, :integer), do: value.i32_val
   def decode_field(value, :bigint), do: value.i64_val
   def decode_field(value, :float) do
   # http://grepcode.com/file/repository.grepcode.com/
