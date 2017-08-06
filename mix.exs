@@ -3,12 +3,12 @@ defmodule Snappyex.Mixfile do
 
   def project do
     [app: :snappyex,
-     version: "0.0.1",
+     version: "0.0.2",
      thrift: [
        files: Path.wildcard("thrift/**/*.thrift"),
        output_path: "lib/thrift/"
      ],
-     elixir: "~> 1.4.0",
+     elixir: "> 1.4.0",
      compilers: [:thrift | Mix.compilers],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,

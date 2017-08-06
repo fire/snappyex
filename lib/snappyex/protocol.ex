@@ -67,23 +67,14 @@ defmodule Snappyex.Protocol do
     :ok
   end
 
+  @doc """
+  Elixir Thrift handles reconnections. So ping is redundant.
+  """
   @spec ping(state :: any) ::
   {:ok, new_state :: any} |
   {:disconnect, Exception.t, new_state :: any}
   def ping(state) do
-    query  = %Snappyex.Query{statement: 'SELECT 1'}
-    {:ok, prepared_query, state} = Snappyex.Protocol.handle_prepare(query,
-      [],
-      state)
-    case Snappyex.Protocol.handle_execute(prepared_query,
-          %SnappyData.Thrift.Row{values: []},
-          nil,
-          state) do
-      {:ok, _, state} ->
-        {:ok, state}
-      {:disconnect, err, state} ->
-        {:disconnect, err.exceptionData, state}
-    end
+    {:ok, state}
   end
 
   defp prepare_insert(statement_id, num_params, %Snappyex.Query{name: name, ref: ref} = query, state) do
