@@ -58,7 +58,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     %SnappyData.Thrift.ColumnValue{i64_val: field}
   end
   def encode_field(field, :timestamp) do
-    %SnappyData.Thrift.ColumnValue{timestamp_val: DateTime.to_unix(field)}
+    {date,{h, d, s, nano}} = field
+    field = {date,{h,d,s}}
+    {:ok, field} = NaiveDateTime.from_erl(field, nano)
+    {:ok, field} = DateTime.from_naive(field, "Etc/UTC")
+    %SnappyData.Thrift.ColumnValue{timestamp_val: DateTime.to_unix(field, :nanosecond)}
   end
   def encode_field(field, :varchar) do
     %SnappyData.Thrift.ColumnValue{clob_val:
@@ -178,7 +182,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     # TODO Extract nanoseconds and add it to time
     # https://github.com/elixir-ecto/postgrex/
     # blob/master/lib/postgrex/extensions/timestamp.ex#L24
-    {:ok, timestamp} = DateTime.from_unix(value.timestamp_val)
+    {:ok, timestamp} = DateTime.from_unix(value.timestamp_val, :nanosecond)
     timestamp
   end
   def decode_field(value, :binary), do: value.binary_val
