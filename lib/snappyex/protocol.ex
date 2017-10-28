@@ -164,7 +164,7 @@ defmodule Snappyex.Protocol do
               token,
               gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
-            result = Map.put_new(Map.new, :rows, statement.result_set)
+            result = %Snappyex.Result{rows: statement.result_set}
             {:ok, result, state}
           {:error, error} ->
             {:disconnect, error, state}
