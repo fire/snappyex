@@ -164,6 +164,7 @@ defmodule Snappyex.Protocol do
               token,
               gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
+            Logger.debug inspect statement
             result = %Snappyex.Result{rows: statement.result_set}
             {:ok, result, state}
           {:error, error} ->

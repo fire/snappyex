@@ -97,13 +97,23 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def decode([], _, acc), do: Enum.reverse(acc)
   def decode(%Query{decoders: nil, columns: _columns}, res, _) do
     _mapper = fn x -> x end
-    {:ok, rows} = Map.fetch(res, :rows)
-    rows = decode_row_set(rows)
+    {:ok, row_set} = Map.fetch(res, :rows)
+    rows = decode_row_set(row_set)
     num_rows = case rows do
       nil -> 0
       _ -> length(rows)
     end
-    %Snappyex.Result{rows: rows, num_rows: num_rows}
+    %Snappyex.Result{columns: decode_row_set_columns(row_set), rows: rows, num_rows: num_rows, 
+      connection_id: decode_row_set_connection_id(row_set)}
+  end
+  def decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do
+    conn_id
+  end
+  def decode_row_set_columns(%SnappyData.Thrift.RowSet{metadata: metadata}) do
+    Enum.map(metadata, fn descriptor ->
+      %SnappyData.Thrift.ColumnDescriptor{name: name} = descriptor
+      name
+    end)
   end
   def decode_row([field | rows], [decoder | cols], acc) do
     {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(decoder)
