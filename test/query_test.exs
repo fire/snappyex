@@ -99,7 +99,7 @@ defmodule QueryTest do
   test "decode date", context do
     assert [[NaiveDateTime.from_erl({{0000,  12,  30}, {0, 0, 0}})]] ==
            query("VALUES DATE('0001-01-01')", [])
-    assert [[NaiveDateTime.from_erl(({{0001,  2,  1}, {0, 0, 0}})]] ==
+    assert [[NaiveDateTime.from_erl({{0001,  2,  1}, {0, 0, 0}})]] ==
            query("VALUES DATE('0001-02-03')", [])
     assert [[NaiveDateTime.from_erl({{2013, 9, 23}, {0, 0, 0}})]] == 
            query("VALUES DATE('2013-09-23')", [])
