@@ -118,6 +118,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
       name
     end)
   end
+  def decode_row_set_columns(nil) do
+    []
+  end
   def decode_row([field | rows], [decoder | cols], acc) do
     {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(decoder)
     decode_row(rows, cols, [decode_field(field, type) | acc])
