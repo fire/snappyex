@@ -33,7 +33,6 @@ end
 
 defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
-  use Timex
   def describe(%Query{} = query, _opts) do
     query
   end
