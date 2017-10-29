@@ -4,7 +4,9 @@ dist: trusty
 git:
   depth: 150
 elixir:
-  - 1.4
+  - 1.5
+otp_release:
+  - 20.1
 cache: apt
 before_install:
   - wget https://github.com/SnappyDataInc/snappydata/releases/download/v1.0.0/snappydata-1.0.0-bin.tar.gz
