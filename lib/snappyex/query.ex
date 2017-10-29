@@ -109,6 +109,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do
     conn_id
   end
+  def decode_row_set_connection_id(nil) do
+    nil
+  end
   def decode_row_set_columns(%SnappyData.Thrift.RowSet{metadata: metadata}) do
     Enum.map(metadata, fn descriptor ->
       %SnappyData.Thrift.ColumnDescriptor{name: name} = descriptor
