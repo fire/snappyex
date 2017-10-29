@@ -185,7 +185,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   def decode_field(value, :time) do
     {:ok, time} = DateTime.from_unix(value.time_val)
-    {_, {hour, minute, second}} = Timex.to_erl(time)
+    {_, {hour, minute, second}} = Time.to_erl(time)
     {hour, minute, second, 0}
   end
   def decode_field(value, :nulltype) do
