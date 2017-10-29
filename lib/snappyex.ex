@@ -18,8 +18,7 @@ defmodule Snappyex do
   end
 
   def prepare_execute(conn, name, statement, params, opts \\ []) do
-    query = %Query{statement: statement}
-    query = %Query{query | name: name}
+    query = %Query{%Query{} | statement: statement, name: name}
     DBConnection.prepare_execute(conn, query, params, defaults(opts))
   end
 

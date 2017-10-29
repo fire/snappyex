@@ -130,7 +130,7 @@ defmodule Snappyex.Protocol do
     end
   end
 
-  def handle_execute(query, params, _opts, state) do
+  def handle_execute(%Query{} = query, params, _opts, state) do
     case execute_lookup(query, state) do
       {:execute, statement_id, query} ->
         execute(statement_id, query, params, state)
@@ -164,8 +164,7 @@ defmodule Snappyex.Protocol do
               token,
               gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
-            result = %Snappyex.Result{rows: statement.result_set}
-            {:ok, result, state}
+            {:ok, %Snappyex.Result{rows: statement.result_set}, state}
           {:error, error} ->
             {:disconnect, error, state}
         end
@@ -196,13 +195,7 @@ defmodule Snappyex.Protocol do
         {:prepare_execute, query}
     end
   end
-
-  def handle_prepare(query, _opts, state) do
-    query = if query.types do
-      %{query | types: []}
-    else
-      query
-    end
+  def handle_prepare(%Query{types: :nil} = query, _opts, state) do
     case prepare_lookup(query, state) do
       {:prepare, query} ->
         prepare(query, state)
