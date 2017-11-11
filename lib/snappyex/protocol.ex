@@ -283,15 +283,13 @@ defmodule Snappyex.Protocol do
 
   defp parameter_meta_data(nil), do: []
   defp parameter_meta_data(data), do: data
-
   defp result_set_meta_data(nil), do: []
   defp result_set_meta_data(data), do: data
 
+  defp num_params(nil), do: 0
+  defp num_params(data), do: Enum.count(data)
   defp prepare_result(query, prepared_result, state) do
-    num_params = case prepared_result.parameter_meta_data do
-                   nil -> 0
-                   result -> Enum.count(result)
-                 end
+    num_params = num_params(prepared_result.parameter_meta_data)
     parameter_meta_data = parameter_meta_data(prepared_result.parameter_meta_data)
     result_set_meta_data = result_set_meta_data(prepared_result.result_set_meta_data)
     param_formats = decode_row_set_types(parameter_meta_data)
