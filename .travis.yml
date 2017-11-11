@@ -24,3 +24,4 @@ env:
     - MIX_ENV=test
     - SNAPPYDATA_PORT=1531
     - SNAPPYDATA_HOSTNAME=127.0.0.1
+    - TZ=Etc/UTC
