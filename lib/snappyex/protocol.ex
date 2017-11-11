@@ -296,15 +296,16 @@ defmodule Snappyex.Protocol do
     result_formats = decode_row_set_types(result_set_meta_data)
     columns = decode_row_set_names(result_set_meta_data)
     types = decode_row_set_names(parameter_meta_data)
-    query = prepare_insert(prepared_result.statement_id,
+    query = %Query{query | ref: make_ref(),
+    param_formats: param_formats,
+    result_formats: result_formats,
+    columns: columns,
+    types: types}
+    prepare = prepare_insert(prepared_result.statement_id,
       num_params,
-      %Query{query | ref: make_ref(),
-             param_formats: param_formats,
-             result_formats: result_formats,
-             columns: columns,
-             types: types},
+      query,
       state)
-    {:ok, query, state}
+    {:ok, prepare, state}
   end
 
   defp prepare_lookup(%Query{name: name} = query, state) do
