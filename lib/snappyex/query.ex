@@ -83,7 +83,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     decode(rows, columns, [decode_row(row.values, columns, []) | acc])
   end
   def decode([], _, acc), do: Enum.reverse(acc)
-  def decode(%Query{decoders: decoders, columns: columns}, res, _) do
+  def decode(%Query{decoders: _decoders, columns: columns}, res, _) do
     _mapper = fn x -> x end
     {:ok, row_set} = Map.fetch(res, :rows)
     rows = decode_row_set(row_set)
@@ -99,9 +99,6 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   defp decode_row_set_connection_id(nil) do
     nil
-  end
-  defp decode_row_set_columns(nil) do
-    []
   end
   defp decode_row([field | rows], [decoder | cols], acc) do
     {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(decoder)
@@ -164,7 +161,8 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   # do: elem(column_value, @string_val)
   defp decode_field(value, :date) do
     {:ok, date} = DateTime.from_unix(value.date_val)
-    DateTime.to_naive(date)
+    {:ok, date} = DateTime.to_naive(date)
+    date
   end
   defp decode_field(value, :time) do
     {:ok, time} = DateTime.from_unix(value.time_val)

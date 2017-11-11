@@ -281,20 +281,30 @@ defmodule Snappyex.Protocol do
     end
   end
 
+  defp parameter_meta_data(nil), do: []
+  defp parameter_meta_data(data), do: data
+
+  defp result_set_meta_data(nil), do: []
+  defp result_set_meta_data(data), do: data
+
   defp prepare_result(query, prepared_result, state) do
     num_params = case prepared_result.parameter_meta_data do
                    nil -> 0
                    result -> Enum.count(result)
                  end
-
+    parameter_meta_data = parameter_meta_data(prepared_result.parameter_meta_data)
+    result_set_meta_data = result_set_meta_data(prepared_result.result_set_meta_data)
+    param_formats = decode_row_set_types(parameter_meta_data)
+    result_formats = decode_row_set_types(result_set_meta_data)
+    columns = decode_row_set_names(result_set_meta_data)
+    types = decode_row_set_names(parameter_meta_data)
     query = prepare_insert(prepared_result.statement_id,
       num_params,
       %Query{query | ref: make_ref(),
-             param_formats: decode_row_set_types(prepared_result.parameter_meta_data),
-             result_formats: decode_row_set_types(prepared_result.result_set_meta_data),
-             columns: decode_row_set_names(prepared_result.result_set_meta_data),
-             types: decode_row_set_names(
-               prepared_result.parameter_meta_data)},
+             param_formats: param_formats,
+             result_formats: result_formats,
+             columns: columns,
+             types: types},
       state)
     {:ok, query, state}
   end
