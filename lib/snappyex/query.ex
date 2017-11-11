@@ -46,9 +46,6 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     %SnappyData.Thrift.ColumnValue{i64_val: field}
   end
   defp encode_field(field, :timestamp) do
-    {date,{h, d, s, nano}} = field
-    field = {date,{h,d,s}}
-    {:ok, field} = NaiveDateTime.from_erl(field, nano)
     {:ok, field} = DateTime.from_naive(field, "Etc/UTC")
     %SnappyData.Thrift.ColumnValue{timestamp_val: DateTime.to_unix(field, :nanosecond)}
   end
@@ -161,12 +158,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   # do: elem(column_value, @string_val)
   defp decode_field(value, :date) do
     {:ok, date} = DateTime.from_unix(value.date_val)
-    {:ok, date} = DateTime.to_naive(date)
-    date
+    DateTime.to_naive(date)
   end
   defp decode_field(value, :time) do
     {:ok, time} = DateTime.from_unix(value.time_val)
-    {_, {hour, minute, second}} = Time.to_erl(time)
+    {hour, minute, second} = Time.to_erl(time)
     {hour, minute, second, 0}
   end
   defp decode_field(value, :nulltype) do
