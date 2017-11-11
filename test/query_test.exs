@@ -98,12 +98,11 @@ defmodule QueryTest do
   end
 
   test "decode date", context do
-    assert [[~N[0000-12-30 08:00:00]]] ==
-           query("VALUES DATE('0001-01-01')", [])
-    assert [[~N[0001-02-01 08:00:00]]] ==
-           query("VALUES DATE('0001-02-03')", [])
-    {:ok, naive_date_time} = NaiveDateTime.from_erl({{2013, 9, 23}, {8, 0, 0}})
-    assert [[~N[2013-09-23 07:00:00]]] == 
+    assert [[~N[2003-01-01 00:00:00]]] ==
+           query("VALUES DATE('2003-01-01')", [])
+    assert [[~N[2023-02-03 00:00:00]]] ==
+           query("VALUES DATE('2023-02-03')", [])
+    assert [[~N[2013-09-23 00:00:00]]] == 
            query("VALUES DATE('2013-09-23')", [])
   end
   
