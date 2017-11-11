@@ -23,8 +23,7 @@ defmodule Snappyex do
   end
 
   def prepare(conn, name, statement, _params, opts \\ []) do
-    query = %Query{statement: statement}
-    query = %Query{query | name: name}
+    query = %Query{statement: statement, name: name}
     DBConnection.prepare(conn, query, defaults(opts))
   end
 
@@ -37,7 +36,6 @@ defmodule Snappyex do
   end
 
   defp defaults(opts) do
-    opts
-    |> Keyword.put_new(:pool_timeout, @timeout)
+    Keyword.put_new(opts, :pool_timeout, @timeout)
   end
 end
