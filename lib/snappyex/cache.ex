@@ -1,5 +1,5 @@
-# https://github.com/xerions/mariaex
-# Apache License
+# Portions from https://github.com/xerions/mariaex
+# Apache licensed
 defmodule Snappyex.Cache do
   @moduledoc false
 
