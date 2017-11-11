@@ -267,17 +267,33 @@ defmodule Snappyex.Protocol do
       end
   end
 
+  defp decode_row_set_names(metadata) do
+    Enum.map(metadata, fn descriptor ->
+      %SnappyData.Thrift.ColumnDescriptor{name: name} = descriptor
+      name
+    end)
+  end
+  alias SnappyData.Thrift.SnappyType, as: SnappyType  
+  defp decode_row_set_types(metadata) do
+    for type <- metadata do
+      {:ok, type} = SnappyType.value_to_name(type.type)
+      type
+    end
+  end
+
   defp prepare_result(query, prepared_result, state) do
-    num_params = case prepared_result.result_set_meta_data do
+    num_params = case prepared_result.parameter_meta_data do
                    nil -> 0
                    result -> Enum.count(result)
                  end
+
     query = prepare_insert(prepared_result.statement_id,
       num_params,
       %Query{query | ref: make_ref(),
-             param_formats: prepared_result.parameter_meta_data,
-             result_formats: prepared_result.result_set_meta_data,
-             types: Query.query_columns_list(
+             param_formats: decode_row_set_types(prepared_result.parameter_meta_data),
+             result_formats: decode_row_set_types(prepared_result.result_set_meta_data),
+             columns: decode_row_set_names(prepared_result.result_set_meta_data),
+             types: decode_row_set_names(
                prepared_result.parameter_meta_data)},
       state)
     {:ok, query, state}

@@ -2,6 +2,7 @@
 # af1b62ae06121f02f2d63f1446eb99b962884edb/lib/postgrex/
 # extensions/numeric.ex
 
+require Logger
 defmodule Snappyex.Query do
   alias SnappyData.Thrift.SnappyType, as: SnappyType
   defstruct [:ref,
@@ -15,19 +16,11 @@ defmodule Snappyex.Query do
              :num_params,
              :decoders,
              :types]
-
-  def query_columns_list(map) do
-    columns = Enum.reduce(
-      map, [], fn (x, acc) ->
-          if is_map(x) and Map.has_key?(x, :name) do
-            {:ok, type} = SnappyType.value_to_name(x.type)
-            [type | acc]
-          else
-            acc
-          end
-        end
-      )
-      Enum.reverse(columns)
+  def query_columns_list(map) do 
+    for type <- map do
+      {:ok, type} = SnappyType.value_to_name(type.type)
+      type
+    end
   end
 end
 
@@ -36,15 +29,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   def describe(%Query{} = query, _opts) do
     query
   end
-  def encode(%Query{types: types}, params, _opts) do
-    encode(types, params)
+  def encode(%Query{param_formats: param_formats}, params, _opts) do
+    encode(param_formats, params)
   end
   defp encode(types, params) do
     %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
-  end
-
-  defp encode_values([], [param | _params], acc) when is_integer(param) do
-    encode_values([], [], [encode_field(param, :bigint) | acc])
   end
   defp encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
@@ -94,7 +83,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     decode(rows, columns, [decode_row(row.values, columns, []) | acc])
   end
   def decode([], _, acc), do: Enum.reverse(acc)
-  def decode(%Query{decoders: nil, columns: _columns}, res, _) do
+  def decode(%Query{decoders: decoders, columns: columns}, res, _) do
     _mapper = fn x -> x end
     {:ok, row_set} = Map.fetch(res, :rows)
     rows = decode_row_set(row_set)
@@ -102,7 +91,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
       nil -> 0
       _ -> length(rows)
     end
-    %Snappyex.Result{columns: decode_row_set_columns(row_set), rows: rows, num_rows: num_rows, 
+    %Snappyex.Result{columns: columns, rows: rows, num_rows: num_rows, 
       connection_id: decode_row_set_connection_id(row_set)}
   end
   defp decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do
@@ -110,12 +99,6 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   defp decode_row_set_connection_id(nil) do
     nil
-  end
-  defp decode_row_set_columns(%SnappyData.Thrift.RowSet{metadata: metadata}) do
-    Enum.map(metadata, fn descriptor ->
-      %SnappyData.Thrift.ColumnDescriptor{name: name} = descriptor
-      name
-    end)
   end
   defp decode_row_set_columns(nil) do
     []
@@ -181,7 +164,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   # do: elem(column_value, @string_val)
   defp decode_field(value, :date) do
     {:ok, date} = DateTime.from_unix(value.date_val)
-    date
+    DateTime.to_naive(date)
   end
   defp decode_field(value, :time) do
     {:ok, time} = DateTime.from_unix(value.time_val)
@@ -198,7 +181,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     # https://github.com/elixir-ecto/postgrex/
     # blob/master/lib/postgrex/extensions/timestamp.ex#L24
     {:ok, timestamp} = DateTime.from_unix(value.timestamp_val, :nanosecond)
-    timestamp
+    DateTime.to_naive(timestamp)
   end
   defp decode_field(value, :binary), do: value.binary_val
   defp decode_field(value, :varbinary), do: value.binary_val
