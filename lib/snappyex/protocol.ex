@@ -84,12 +84,41 @@ defmodule Snappyex.Protocol do
     %{query | ref: ref, num_params: num_params}
   end
 
+  def handle_info(_msg, state) do
+    {:ok, state}
+  end
+
+  def handle_next(_query, _cursor, _, _state) do
+    raise "Next is not implemented"
+  end
+
+  def handle_first(_query, _cursor, _opts, _state) do
+    raise "First is not implemented"
+  end
+
+  def handle_deallocate(_, _cursor, _, _state) do
+    raise "Deallocate cursor is not implemented"
+  end
+
+
+  def handle_declare(_, _cursor, _, _state) do
+    raise "Declare cursor is not implemented"
+  end
+
   def handle_commit(_opts, state) do
     query = %Snappyex.Query{statement: 'COMMIT'}
     {:ok, prepared_query, state} = handle_prepare(query, [], state)
     params = Map.put_new(Map.new, :params, %SnappyData.Thrift.Row{values: []})
     handle_execute(prepared_query, params , [], state)
   end
+
+  def handle_rollback(_opts, state) do
+    query = %Snappyex.Query{statement: 'ROLLBACK'}
+    {:ok, prepared_query, state} = handle_prepare(query, [], state)
+    params = Map.put_new(Map.new, :params, %SnappyData.Thrift.Row{values: []})
+    handle_execute(prepared_query, params , [], state)
+  end
+
   def handle_begin(opts, state) do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
