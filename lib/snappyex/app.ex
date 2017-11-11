@@ -5,7 +5,7 @@ defmodule Snappyex.App do
   def start(_, _) do
     import Supervisor.Spec, warn: false
     opts = [strategy: :one_for_one, name: Snappyex.Supervisor]
-    children = [] #[worker(Snappyex.App, [])]
+    children = []
     Supervisor.start_link(children, opts)
   end
 end
