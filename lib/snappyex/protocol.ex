@@ -19,11 +19,11 @@ defmodule Snappyex.Protocol do
     connect_start_link(status, opts)
   end
 
-   def connect_start_link({:error, err}, _opts) do
+  defp connect_start_link({:error, err}, _opts) do
     {:error, err}
   end
 
-  def connect_start_link({:ok, pid}, opts) do
+  defp connect_start_link({:ok, pid}, opts) do
     token_size = Keyword.get(opts, :token_size, 16)
     use_string_for_decimal = Keyword.get(opts, :use_string_for_decimal, false)
     {:ok, user_name} = Keyword.fetch(opts, :username)
