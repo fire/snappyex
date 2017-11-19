@@ -225,6 +225,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
 
   defp decode_map(data, opts) do
+    data = unless data do
+      []
+    else 
+      data
+    end
     case opts[:decode_mapper] do
       nil    -> Enum.reverse(data)
       mapper -> decode_map(data, mapper, [])
