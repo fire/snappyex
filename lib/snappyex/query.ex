@@ -9,10 +9,11 @@ defmodule Snappyex.Query do
              :name,
              :statement,
              :param_formats,
+             :param_types,
              :encoders,
              :columns,
-             :result_set_meta_data,
              :result_formats,
+             :result_types,
              :num_params,
              :decoders,
              :types]
