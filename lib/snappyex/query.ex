@@ -83,11 +83,11 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     decode(rows, columns, [decode_row(row.values, columns, []) | acc])
   end
   def decode([], _, acc), do: Enum.reverse(acc)
-  def decode(%Query{decoders: _decoders, columns: columns}, res, _) do
+  def decode(%Query{decoders: _decoders, columns: columns}, res, opts) do
     _mapper = fn x -> x end
     {:ok, row_set} = Map.fetch(res, :rows)
     rows = decode_row_set(row_set)
-    %Snappyex.Result{res | columns: columns, rows: rows, 
+    %Snappyex.Result{res | columns: columns, rows: decode_map(rows, opts), 
       connection_id: decode_row_set_connection_id(row_set)}
   end
   defp decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do
@@ -221,6 +221,20 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   def parse(query, _) do
     query
+  end
+
+  defp decode_map(data, opts) do
+    case opts[:decode_mapper] do
+      nil    -> Enum.reverse(data)
+      mapper -> decode_map(data, mapper, [])
+    end
+  end
+
+  defp decode_map([row | data], mapper, decoded) do
+    decode_map(data, mapper, [mapper.(row) | decoded])
+  end
+  defp decode_map([], _, decoded) do
+    decoded
   end
 end
 
