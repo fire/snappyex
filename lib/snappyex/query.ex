@@ -46,6 +46,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     %SnappyData.Thrift.ColumnValue{i64_val: field}
   end
   defp encode_field(field, :timestamp) do
+    {date, time} = field
+    {h, m, s, microsecond} = time
+    {:ok, field} = NaiveDateTime.from_erl({date, {h, m, s}}, {microsecond, 0})
     {:ok, field} = DateTime.from_naive(field, "Etc/UTC")
     %SnappyData.Thrift.ColumnValue{timestamp_val: DateTime.to_unix(field, :nanosecond)}
   end
