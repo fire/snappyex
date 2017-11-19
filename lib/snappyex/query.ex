@@ -84,11 +84,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     _mapper = fn x -> x end
     {:ok, row_set} = Map.fetch(res, :rows)
     rows = decode_row_set(row_set)
-    num_rows = case rows do
-      nil -> 0
-      _ -> length(rows)
-    end
-    %Snappyex.Result{columns: columns, rows: rows, num_rows: num_rows, 
+    %Snappyex.Result{res | columns: columns, rows: rows, 
       connection_id: decode_row_set_connection_id(row_set)}
   end
   defp decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do

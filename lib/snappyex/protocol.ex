@@ -193,7 +193,7 @@ defmodule Snappyex.Protocol do
               token,
               gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
-            {:ok, %Snappyex.Result{rows: statement.result_set}, state}
+            {:ok, %Snappyex.Result{num_rows: statement.update_count, rows: statement.result_set}, state}
           {:error, error} ->
             {:disconnect, error, state}
         end
