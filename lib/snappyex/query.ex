@@ -236,6 +236,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   defp decode_map([], _, decoded) do
     decoded
   end
+  defp decode_map(nil, _, decoded) do
+    nil
+  end
 end
 
 defimpl String.Chars, for: Snappyex.Query do
