@@ -225,7 +225,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
 
   defp decode_map(nil, opts) do
-    decode_map(nil, opts)
+    decode_map([], opts)
   end
   defp decode_map(data, opts) do
     case opts[:decode_mapper] do
