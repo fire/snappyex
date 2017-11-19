@@ -224,12 +224,10 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     query
   end
 
+  defp decode_map(nil, opts) do
+    decode_map(nil, opts)
+  end
   defp decode_map(data, opts) do
-    data = unless data do
-      []
-    else 
-      data
-    end
     case opts[:decode_mapper] do
       nil    -> Enum.reverse(data)
       mapper -> decode_map(data, mapper, [])
@@ -242,7 +240,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   defp decode_map([], _, decoded) do
     decoded
   end
-  defp decode_map(nil, _, decoded) do
+  defp decode_map(nil, _, _decoded) do
     nil
   end
 end
