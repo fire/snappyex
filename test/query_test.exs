@@ -31,9 +31,9 @@ defmodule QueryTest do
 
   test "encode basic types", context do
     query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_ENCODE", [])
-    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double, b bigint, curr timestamp)", [])
+    [] = query("CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double, b bigint, curr timestamp)", [])
     naive_date_time = ~N[1971-12-30 00:00:00]
-    assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body, f, d, b, curr) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, "Along came a spider", "This is a book", 42, 42.4242, 1234, naive_date_time])
+    assert [] == query("INSERT INTO SNAPPYEX_TEST.TEST_ENCODE (id, title, body, f, d, b, curr) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, "Along came a spider", "This is a book", 42, 42.4242, 1234, naive_date_time])
     assert [[1, "Along came a spider", "This is a book", 42.0, 42.4242, 1234, date]] = query("SELECT * FROM SNAPPYEX_TEST.TEST_ENCODE WHERE id = ?", [1])
     assert :eq == NaiveDateTime.compare(naive_date_time, date) 
     query("DROP TABLE SNAPPYEX_TEST.TEST_ENCODE", [])
@@ -108,15 +108,15 @@ defmodule QueryTest do
   
   test "insert query", context do
     query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_INSERT", [])   
-    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT (id int primary key, text varchar(10))", [])  
-    assert nil == query("INSERT INTO SNAPPYEX_TEST.TEST_INSERT (id, text) VALUES (?, ?)", [43, "fortythree"])
+    [] = query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT (id int primary key, text varchar(10))", [])  
+    assert [] == query("INSERT INTO SNAPPYEX_TEST.TEST_INSERT (id, text) VALUES (?, ?)", [43, "fortythree"])
     assert [[43, "fortythree"]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_INSERT", [])
     query("DROP TABLE SNAPPYEX_TEST.TEST_INSERT", [])
   end
 
   test "insert prepared query", context do
     query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_INSERT_PREPARED", [])   
-    nil = query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT_PREPARED (id int primary key, text varchar(10))", [])  
+    [] = query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT_PREPARED (id int primary key, text varchar(10))", [])  
     query = prepare("Insert", "INSERT INTO SNAPPYEX_TEST.TEST_INSERT_PREPARED (id, text) VALUES (?, ?)", [])
     assert :ok == execute(query, [43, "fortythree"])
     assert [[43, "fortythree"]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_INSERT_PREPARED", [])
