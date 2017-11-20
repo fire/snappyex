@@ -210,7 +210,7 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
 
   defp decode_row_set(nil) do
-    nil
+    []
   end
 
   defp decode_row_set(%SnappyData.Thrift.RowSet{rows: rows, metadata: metadata}) do
@@ -224,13 +224,19 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     query
   end
 
-  defp decode_map(nil, opts) do
-    decode_map([], opts)
-  end
-  defp decode_map(data, opts) do
+  defp decode_map(nil, opts)  do
     case opts[:decode_mapper] do
-      nil    -> Enum.reverse(data)
-      mapper -> decode_map(data, mapper, [])
+      mapper -> 
+        decode_map(nil, mapper, [])
+    end
+  end
+
+  defp decode_map(data, opts) when is_list(data) do
+    case opts[:decode_mapper] do
+      nil -> 
+        Enum.reverse(data)
+      mapper -> 
+        decode_map(data, mapper, [])
     end
   end
 
@@ -239,9 +245,6 @@ defimpl DBConnection.Query, for: Snappyex.Query do
   end
   defp decode_map([], _, decoded) do
     decoded
-  end
-  defp decode_map(nil, _, _decoded) do
-    nil
   end
 end
 
