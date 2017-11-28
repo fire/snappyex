@@ -1,18 +1,18 @@
 defmodule(SnappyData.Thrift.TransactionAttribute) do
   @moduledoc("Auto-generated Thrift enum snappydata.TransactionAttribute")
-  defmacro(autocommit) do
+  defmacro(unquote(:autocommit)()) do
     1
   end
-  defmacro(read_only_connection) do
+  defmacro(unquote(:read_only_connection)()) do
     2
   end
-  defmacro(waiting_mode) do
+  defmacro(unquote(:waiting_mode)()) do
     3
   end
-  defmacro(disable_batching) do
+  defmacro(unquote(:disable_batching)()) do
     4
   end
-  defmacro(sync_commits) do
+  defmacro(unquote(:sync_commits)()) do
     5
   end
   def(value_to_name(1)) do

@@ -1,69 +1,69 @@
 defmodule(SnappyData.Thrift.ServiceMetaDataCall) do
   @moduledoc("Auto-generated Thrift enum snappydata.ServiceMetaDataCall")
-  defmacro(catalogs) do
+  defmacro(unquote(:catalogs)()) do
     1
   end
-  defmacro(schemas) do
+  defmacro(unquote(:schemas)()) do
     2
   end
-  defmacro(tables) do
+  defmacro(unquote(:tables)()) do
     3
   end
-  defmacro(tabletypes) do
+  defmacro(unquote(:tabletypes)()) do
     4
   end
-  defmacro(columns) do
+  defmacro(unquote(:columns)()) do
     5
   end
-  defmacro(tableprivileges) do
+  defmacro(unquote(:tableprivileges)()) do
     6
   end
-  defmacro(columnprivileges) do
+  defmacro(unquote(:columnprivileges)()) do
     7
   end
-  defmacro(primarykeys) do
+  defmacro(unquote(:primarykeys)()) do
     8
   end
-  defmacro(importedkeys) do
+  defmacro(unquote(:importedkeys)()) do
     9
   end
-  defmacro(exportedkeys) do
+  defmacro(unquote(:exportedkeys)()) do
     10
   end
-  defmacro(crossreference) do
+  defmacro(unquote(:crossreference)()) do
     11
   end
-  defmacro(procedures) do
+  defmacro(unquote(:procedures)()) do
     12
   end
-  defmacro(functions) do
+  defmacro(unquote(:functions)()) do
     13
   end
-  defmacro(procedurecolumns) do
+  defmacro(unquote(:procedurecolumns)()) do
     14
   end
-  defmacro(functioncolumns) do
+  defmacro(unquote(:functioncolumns)()) do
     15
   end
-  defmacro(attributes) do
+  defmacro(unquote(:attributes)()) do
     16
   end
-  defmacro(typeinfo) do
+  defmacro(unquote(:typeinfo)()) do
     17
   end
-  defmacro(supertypes) do
+  defmacro(unquote(:supertypes)()) do
     18
   end
-  defmacro(supertables) do
+  defmacro(unquote(:supertables)()) do
     19
   end
-  defmacro(versioncolumns) do
+  defmacro(unquote(:versioncolumns)()) do
     20
   end
-  defmacro(clientinfoprops) do
+  defmacro(unquote(:clientinfoprops)()) do
     21
   end
-  defmacro(pseudocolumns) do
+  defmacro(unquote(:pseudocolumns)()) do
     22
   end
   def(value_to_name(1)) do

@@ -1,18 +1,18 @@
 defmodule(SnappyData.Thrift.RowIdLifetime) do
   @moduledoc("Auto-generated Thrift enum snappydata.RowIdLifetime")
-  defmacro(rowid_unsupported) do
+  defmacro(unquote(:rowid_unsupported)()) do
     1
   end
-  defmacro(rowid_valid_other) do
+  defmacro(unquote(:rowid_valid_other)()) do
     2
   end
-  defmacro(rowid_valid_session) do
+  defmacro(unquote(:rowid_valid_session)()) do
     3
   end
-  defmacro(rowid_valid_transaction) do
+  defmacro(unquote(:rowid_valid_transaction)()) do
     4
   end
-  defmacro(rowid_valid_forever) do
+  defmacro(unquote(:rowid_valid_forever)()) do
     5
   end
   def(value_to_name(1)) do

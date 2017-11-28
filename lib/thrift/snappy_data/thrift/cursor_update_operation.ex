@@ -1,12 +1,12 @@
 defmodule(SnappyData.Thrift.CursorUpdateOperation) do
   @moduledoc("Auto-generated Thrift enum snappydata.CursorUpdateOperation")
-  defmacro(update_op) do
+  defmacro(unquote(:update_op)()) do
     1
   end
-  defmacro(insert_op) do
+  defmacro(unquote(:insert_op)()) do
     2
   end
-  defmacro(delete_op) do
+  defmacro(unquote(:delete_op)()) do
     3
   end
   def(value_to_name(1)) do

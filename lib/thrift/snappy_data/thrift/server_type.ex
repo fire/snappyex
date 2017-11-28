@@ -1,30 +1,30 @@
 defmodule(SnappyData.Thrift.ServerType) do
   @moduledoc("Auto-generated Thrift enum snappydata.ServerType")
-  defmacro(drda) do
+  defmacro(unquote(:drda)()) do
     1
   end
-  defmacro(thrift_locator_cp) do
+  defmacro(unquote(:thrift_locator_cp)()) do
     2
   end
-  defmacro(thrift_locator_bp) do
+  defmacro(unquote(:thrift_locator_bp)()) do
     3
   end
-  defmacro(thrift_locator_cp_ssl) do
+  defmacro(unquote(:thrift_locator_cp_ssl)()) do
     4
   end
-  defmacro(thrift_locator_bp_ssl) do
+  defmacro(unquote(:thrift_locator_bp_ssl)()) do
     5
   end
-  defmacro(thrift_snappy_cp) do
+  defmacro(unquote(:thrift_snappy_cp)()) do
     6
   end
-  defmacro(thrift_snappy_bp) do
+  defmacro(unquote(:thrift_snappy_bp)()) do
     7
   end
-  defmacro(thrift_snappy_cp_ssl) do
+  defmacro(unquote(:thrift_snappy_cp_ssl)()) do
     8
   end
-  defmacro(thrift_snappy_bp_ssl) do
+  defmacro(unquote(:thrift_snappy_bp_ssl)()) do
     9
   end
   def(value_to_name(1)) do

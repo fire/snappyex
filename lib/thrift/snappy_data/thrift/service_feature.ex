@@ -1,267 +1,267 @@
 defmodule(SnappyData.Thrift.ServiceFeature) do
   @moduledoc("Auto-generated Thrift enum snappydata.ServiceFeature")
-  defmacro(all_procedures_callable) do
+  defmacro(unquote(:all_procedures_callable)()) do
     1
   end
-  defmacro(all_tables_selectable) do
+  defmacro(unquote(:all_tables_selectable)()) do
     2
   end
-  defmacro(integrity_enhancement) do
+  defmacro(unquote(:integrity_enhancement)()) do
     3
   end
-  defmacro(nulls_sorted_high) do
+  defmacro(unquote(:nulls_sorted_high)()) do
     4
   end
-  defmacro(nulls_sorted_low) do
+  defmacro(unquote(:nulls_sorted_low)()) do
     5
   end
-  defmacro(nulls_sorted_start) do
+  defmacro(unquote(:nulls_sorted_start)()) do
     6
   end
-  defmacro(nulls_sorted_end) do
+  defmacro(unquote(:nulls_sorted_end)()) do
     7
   end
-  defmacro(uses_local_files) do
+  defmacro(unquote(:uses_local_files)()) do
     8
   end
-  defmacro(uses_local_file_per_table) do
+  defmacro(unquote(:uses_local_file_per_table)()) do
     9
   end
-  defmacro(mixedcase_identifiers) do
+  defmacro(unquote(:mixedcase_identifiers)()) do
     10
   end
-  defmacro(mixedcase_quoted_identifiers) do
+  defmacro(unquote(:mixedcase_quoted_identifiers)()) do
     11
   end
-  defmacro(stores_uppercase_identifiers) do
+  defmacro(unquote(:stores_uppercase_identifiers)()) do
     12
   end
-  defmacro(stores_lowercase_identifiers) do
+  defmacro(unquote(:stores_lowercase_identifiers)()) do
     13
   end
-  defmacro(stores_mixedcase_identifiers) do
+  defmacro(unquote(:stores_mixedcase_identifiers)()) do
     14
   end
-  defmacro(stores_uppercase_quoted_identifiers) do
+  defmacro(unquote(:stores_uppercase_quoted_identifiers)()) do
     15
   end
-  defmacro(stores_lowercase_quoted_identifiers) do
+  defmacro(unquote(:stores_lowercase_quoted_identifiers)()) do
     16
   end
-  defmacro(stores_mixedcase_quoted_identifiers) do
+  defmacro(unquote(:stores_mixedcase_quoted_identifiers)()) do
     17
   end
-  defmacro(alter_table_add_column) do
+  defmacro(unquote(:alter_table_add_column)()) do
     18
   end
-  defmacro(alter_table_drop_column) do
+  defmacro(unquote(:alter_table_drop_column)()) do
     19
   end
-  defmacro(column_aliasing) do
+  defmacro(unquote(:column_aliasing)()) do
     20
   end
-  defmacro(null_concat_non_null_is_null) do
+  defmacro(unquote(:null_concat_non_null_is_null)()) do
     21
   end
-  defmacro(convert) do
+  defmacro(unquote(:convert)()) do
     22
   end
-  defmacro(table_correlation_names) do
+  defmacro(unquote(:table_correlation_names)()) do
     23
   end
-  defmacro(table_correlation_names_different) do
+  defmacro(unquote(:table_correlation_names_different)()) do
     24
   end
-  defmacro(order_by_expressions) do
+  defmacro(unquote(:order_by_expressions)()) do
     25
   end
-  defmacro(order_by_unrelated) do
+  defmacro(unquote(:order_by_unrelated)()) do
     26
   end
-  defmacro(group_by) do
+  defmacro(unquote(:group_by)()) do
     27
   end
-  defmacro(group_by_unrelated) do
+  defmacro(unquote(:group_by_unrelated)()) do
     28
   end
-  defmacro(group_by_beyond_select) do
+  defmacro(unquote(:group_by_beyond_select)()) do
     29
   end
-  defmacro(like_escape) do
+  defmacro(unquote(:like_escape)()) do
     30
   end
-  defmacro(multiple_resultsets) do
+  defmacro(unquote(:multiple_resultsets)()) do
     31
   end
-  defmacro(multiple_transactions) do
+  defmacro(unquote(:multiple_transactions)()) do
     32
   end
-  defmacro(non_nullable_columns) do
+  defmacro(unquote(:non_nullable_columns)()) do
     33
   end
-  defmacro(sql_grammar_minimum) do
+  defmacro(unquote(:sql_grammar_minimum)()) do
     34
   end
-  defmacro(sql_grammar_core) do
+  defmacro(unquote(:sql_grammar_core)()) do
     35
   end
-  defmacro(sql_grammar_extended) do
+  defmacro(unquote(:sql_grammar_extended)()) do
     36
   end
-  defmacro(sql_grammar_ansi92_entry) do
+  defmacro(unquote(:sql_grammar_ansi92_entry)()) do
     37
   end
-  defmacro(sql_grammar_ansi92_intermediate) do
+  defmacro(unquote(:sql_grammar_ansi92_intermediate)()) do
     38
   end
-  defmacro(sql_grammar_ansi92_full) do
+  defmacro(unquote(:sql_grammar_ansi92_full)()) do
     39
   end
-  defmacro(outer_joins) do
+  defmacro(unquote(:outer_joins)()) do
     40
   end
-  defmacro(outer_joins_full) do
+  defmacro(unquote(:outer_joins_full)()) do
     41
   end
-  defmacro(outer_joins_limited) do
+  defmacro(unquote(:outer_joins_limited)()) do
     42
   end
-  defmacro(schemas_in_dmls) do
+  defmacro(unquote(:schemas_in_dmls)()) do
     43
   end
-  defmacro(schemas_in_procedure_calls) do
+  defmacro(unquote(:schemas_in_procedure_calls)()) do
     44
   end
-  defmacro(schemas_in_table_defs) do
+  defmacro(unquote(:schemas_in_table_defs)()) do
     45
   end
-  defmacro(schemas_in_index_defs) do
+  defmacro(unquote(:schemas_in_index_defs)()) do
     46
   end
-  defmacro(schemas_in_privilege_defs) do
+  defmacro(unquote(:schemas_in_privilege_defs)()) do
     47
   end
-  defmacro(autocommit_failure_closes_all_resultsets) do
+  defmacro(unquote(:autocommit_failure_closes_all_resultsets)()) do
     48
   end
-  defmacro(catalogs_in_dmls) do
+  defmacro(unquote(:catalogs_in_dmls)()) do
     49
   end
-  defmacro(catalogs_in_procedure_calls) do
+  defmacro(unquote(:catalogs_in_procedure_calls)()) do
     50
   end
-  defmacro(catalogs_in_table_defs) do
+  defmacro(unquote(:catalogs_in_table_defs)()) do
     51
   end
-  defmacro(catalogs_in_index_defs) do
+  defmacro(unquote(:catalogs_in_index_defs)()) do
     52
   end
-  defmacro(catalogs_in_privilege_defs) do
+  defmacro(unquote(:catalogs_in_privilege_defs)()) do
     53
   end
-  defmacro(positioned_delete) do
+  defmacro(unquote(:positioned_delete)()) do
     54
   end
-  defmacro(positioned_update) do
+  defmacro(unquote(:positioned_update)()) do
     55
   end
-  defmacro(select_for_update) do
+  defmacro(unquote(:select_for_update)()) do
     56
   end
-  defmacro(stored_procedures) do
+  defmacro(unquote(:stored_procedures)()) do
     57
   end
-  defmacro(subqueries_in_comparisons) do
+  defmacro(unquote(:subqueries_in_comparisons)()) do
     58
   end
-  defmacro(subqueries_in_exists) do
+  defmacro(unquote(:subqueries_in_exists)()) do
     59
   end
-  defmacro(subqueries_in_ins) do
+  defmacro(unquote(:subqueries_in_ins)()) do
     60
   end
-  defmacro(subqueries_in_quantifieds) do
+  defmacro(unquote(:subqueries_in_quantifieds)()) do
     61
   end
-  defmacro(subqueries_correlated) do
+  defmacro(unquote(:subqueries_correlated)()) do
     62
   end
-  defmacro(union) do
+  defmacro(unquote(:union)()) do
     63
   end
-  defmacro(union_all) do
+  defmacro(unquote(:union_all)()) do
     64
   end
-  defmacro(open_cursors_across_commit) do
+  defmacro(unquote(:open_cursors_across_commit)()) do
     65
   end
-  defmacro(open_cursors_across_rollback) do
+  defmacro(unquote(:open_cursors_across_rollback)()) do
     66
   end
-  defmacro(open_statements_across_commit) do
+  defmacro(unquote(:open_statements_across_commit)()) do
     67
   end
-  defmacro(open_statements_across_rollback) do
+  defmacro(unquote(:open_statements_across_rollback)()) do
     68
   end
-  defmacro(max_rowsize_includes_blobsize) do
+  defmacro(unquote(:max_rowsize_includes_blobsize)()) do
     69
   end
-  defmacro(transactions) do
+  defmacro(unquote(:transactions)()) do
     70
   end
-  defmacro(transactions_both_dmls_and_ddls) do
+  defmacro(unquote(:transactions_both_dmls_and_ddls)()) do
     71
   end
-  defmacro(transactions_dmls_only) do
+  defmacro(unquote(:transactions_dmls_only)()) do
     72
   end
-  defmacro(transactions_ddls_implicit_commit) do
+  defmacro(unquote(:transactions_ddls_implicit_commit)()) do
     73
   end
-  defmacro(transactions_ddls_ignored) do
+  defmacro(unquote(:transactions_ddls_ignored)()) do
     74
   end
-  defmacro(transactions_savepoints) do
+  defmacro(unquote(:transactions_savepoints)()) do
     75
   end
-  defmacro(callable_named_parameters) do
+  defmacro(unquote(:callable_named_parameters)()) do
     76
   end
-  defmacro(callable_multiple_open_resultsets) do
+  defmacro(unquote(:callable_multiple_open_resultsets)()) do
     77
   end
-  defmacro(generated_keys_retrieval) do
+  defmacro(unquote(:generated_keys_retrieval)()) do
     78
   end
-  defmacro(generated_keys_always_returned) do
+  defmacro(unquote(:generated_keys_always_returned)()) do
     79
   end
-  defmacro(batch_updates) do
+  defmacro(unquote(:batch_updates)()) do
     80
   end
-  defmacro(resultset_forward_only) do
+  defmacro(unquote(:resultset_forward_only)()) do
     81
   end
-  defmacro(resultset_scroll_insensitive) do
+  defmacro(unquote(:resultset_scroll_insensitive)()) do
     82
   end
-  defmacro(resultset_scroll_sensitive) do
+  defmacro(unquote(:resultset_scroll_sensitive)()) do
     83
   end
-  defmacro(resultset_holdability_close_cursors_at_commit) do
+  defmacro(unquote(:resultset_holdability_close_cursors_at_commit)()) do
     84
   end
-  defmacro(resultset_holdability_hold_cursors_over_commit) do
+  defmacro(unquote(:resultset_holdability_hold_cursors_over_commit)()) do
     85
   end
-  defmacro(lob_updates_copy) do
+  defmacro(unquote(:lob_updates_copy)()) do
     86
   end
-  defmacro(statement_pooling) do
+  defmacro(unquote(:statement_pooling)()) do
     87
   end
-  defmacro(stored_functions_using_call) do
+  defmacro(unquote(:stored_functions_using_call)()) do
     88
   end
   def(value_to_name(1)) do

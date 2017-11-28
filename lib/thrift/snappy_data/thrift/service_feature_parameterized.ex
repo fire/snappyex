@@ -1,42 +1,42 @@
 defmodule(SnappyData.Thrift.ServiceFeatureParameterized) do
   @moduledoc("Auto-generated Thrift enum snappydata.ServiceFeatureParameterized")
-  defmacro(transactions_support_isolation) do
+  defmacro(unquote(:transactions_support_isolation)()) do
     1
   end
-  defmacro(resultset_type) do
+  defmacro(unquote(:resultset_type)()) do
     2
   end
-  defmacro(resultset_concurrency_read_only) do
+  defmacro(unquote(:resultset_concurrency_read_only)()) do
     3
   end
-  defmacro(resultset_concurrency_updatable) do
+  defmacro(unquote(:resultset_concurrency_updatable)()) do
     4
   end
-  defmacro(resultset_own_updates_visible) do
+  defmacro(unquote(:resultset_own_updates_visible)()) do
     5
   end
-  defmacro(resultset_own_deletes_visible) do
+  defmacro(unquote(:resultset_own_deletes_visible)()) do
     6
   end
-  defmacro(resultset_own_inserts_visible) do
+  defmacro(unquote(:resultset_own_inserts_visible)()) do
     7
   end
-  defmacro(resultset_others_updates_visible) do
+  defmacro(unquote(:resultset_others_updates_visible)()) do
     8
   end
-  defmacro(resultset_others_deletes_visible) do
+  defmacro(unquote(:resultset_others_deletes_visible)()) do
     9
   end
-  defmacro(resultset_others_inserts_visible) do
+  defmacro(unquote(:resultset_others_inserts_visible)()) do
     10
   end
-  defmacro(resultset_updates_detected) do
+  defmacro(unquote(:resultset_updates_detected)()) do
     11
   end
-  defmacro(resultset_deletes_detected) do
+  defmacro(unquote(:resultset_deletes_detected)()) do
     12
   end
-  defmacro(resultset_inserts_detected) do
+  defmacro(unquote(:resultset_inserts_detected)()) do
     13
   end
   def(value_to_name(1)) do

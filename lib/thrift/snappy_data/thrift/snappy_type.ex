@@ -1,84 +1,84 @@
 defmodule(SnappyData.Thrift.SnappyType) do
   @moduledoc("Auto-generated Thrift enum snappydata.SnappyType")
-  defmacro(boolean) do
+  defmacro(unquote(:boolean)()) do
     1
   end
-  defmacro(tinyint) do
+  defmacro(unquote(:tinyint)()) do
     2
   end
-  defmacro(smallint) do
+  defmacro(unquote(:smallint)()) do
     3
   end
-  defmacro(integer) do
+  defmacro(unquote(:integer)()) do
     4
   end
-  defmacro(bigint) do
+  defmacro(unquote(:bigint)()) do
     5
   end
-  defmacro(float) do
+  defmacro(unquote(:float)()) do
     6
   end
-  defmacro(double) do
+  defmacro(unquote(:double)()) do
     7
   end
-  defmacro(decimal) do
+  defmacro(unquote(:decimal)()) do
     8
   end
-  defmacro(char) do
+  defmacro(unquote(:char)()) do
     9
   end
-  defmacro(varchar) do
+  defmacro(unquote(:varchar)()) do
     10
   end
-  defmacro(longvarchar) do
+  defmacro(unquote(:longvarchar)()) do
     11
   end
-  defmacro(date) do
+  defmacro(unquote(:date)()) do
     12
   end
-  defmacro(time) do
+  defmacro(unquote(:time)()) do
     13
   end
-  defmacro(timestamp) do
+  defmacro(unquote(:timestamp)()) do
     14
   end
-  defmacro(binary) do
+  defmacro(unquote(:binary)()) do
     15
   end
-  defmacro(varbinary) do
+  defmacro(unquote(:varbinary)()) do
     16
   end
-  defmacro(longvarbinary) do
+  defmacro(unquote(:longvarbinary)()) do
     17
   end
-  defmacro(blob) do
+  defmacro(unquote(:blob)()) do
     18
   end
-  defmacro(clob) do
+  defmacro(unquote(:clob)()) do
     19
   end
-  defmacro(sqlxml) do
+  defmacro(unquote(:sqlxml)()) do
     20
   end
-  defmacro(array) do
+  defmacro(unquote(:array)()) do
     21
   end
-  defmacro(map) do
+  defmacro(unquote(:map)()) do
     22
   end
-  defmacro(struct) do
+  defmacro(unquote(:struct)()) do
     23
   end
-  defmacro(nulltype) do
+  defmacro(unquote(:nulltype)()) do
     24
   end
-  defmacro(json) do
+  defmacro(unquote(:json)()) do
     25
   end
-  defmacro(java_object) do
+  defmacro(unquote(:java_object)()) do
     26
   end
-  defmacro(other) do
+  defmacro(unquote(:other)()) do
     27
   end
   def(value_to_name(1)) do

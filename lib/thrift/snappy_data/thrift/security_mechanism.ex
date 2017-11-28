@@ -1,9 +1,9 @@
 defmodule(SnappyData.Thrift.SecurityMechanism) do
   @moduledoc("Auto-generated Thrift enum snappydata.SecurityMechanism")
-  defmacro(plain) do
+  defmacro(unquote(:plain)()) do
     1
   end
-  defmacro(diffie_hellman) do
+  defmacro(unquote(:diffie_hellman)()) do
     2
   end
   def(value_to_name(1)) do

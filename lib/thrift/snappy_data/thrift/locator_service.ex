@@ -347,25 +347,13 @@ defmodule(SnappyData.Thrift.LocatorService) do
     def(get_all_servers_with_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
       args = %SnappyData.Thrift.LocatorService.GetAllServersWithPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
       serialized_args = Elixir.SnappyData.Thrift.LocatorService.GetAllServersWithPreferredServerArgs.BinaryProtocol.serialize(args)
-      case(ClientImpl.call(client, "getAllServersWithPreferredServer", serialized_args, opts)) do
-        {:ok, serialized_response} ->
-          case(GetAllServersWithPreferredServerResponse.BinaryProtocol.deserialize(serialized_response)) do
-            {%{success: nil} = resp, ""} ->
-              responses = resp |> Map.from_struct() |> Map.values() |> Enum.reject(&(is_nil(&1)))
-              case(responses) do
-                [exception] ->
-                  {:error, {:exception, exception}}
-                [] ->
-                  {:ok, nil}
-              end
-            {%{success: success}, ""} ->
-              {:ok, success}
-          end
-        {:error, _} = err ->
-          err
-      end
+      (
+        deserialize_module = GetAllServersWithPreferredServerResponse.BinaryProtocol
+        rpc_name = "getAllServersWithPreferredServer"
+        ClientImpl.call(client, rpc_name, serialized_args, deserialize_module, opts)
+      )
     end
-    def(get_all_servers_with_preferred_server(client, server_types, server_groups, failed_servers)) do
+    def(unquote(:get_all_servers_with_preferred_server)(client, server_types, server_groups, failed_servers)) do
       get_all_servers_with_preferred_server_with_options(client, server_types, server_groups, failed_servers, [])
     end
     def(get_all_servers_with_preferred_server_with_options!(client, server_types, server_groups, failed_servers, opts)) do
@@ -378,31 +366,19 @@ defmodule(SnappyData.Thrift.LocatorService) do
           raise(err)
       end
     end
-    def(get_all_servers_with_preferred_server!(client, server_types, server_groups, failed_servers)) do
+    def(unquote(:get_all_servers_with_preferred_server!)(client, server_types, server_groups, failed_servers)) do
       get_all_servers_with_preferred_server_with_options!(client, server_types, server_groups, failed_servers, [])
     end
     def(get_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
       args = %SnappyData.Thrift.LocatorService.GetPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
       serialized_args = Elixir.SnappyData.Thrift.LocatorService.GetPreferredServerArgs.BinaryProtocol.serialize(args)
-      case(ClientImpl.call(client, "getPreferredServer", serialized_args, opts)) do
-        {:ok, serialized_response} ->
-          case(GetPreferredServerResponse.BinaryProtocol.deserialize(serialized_response)) do
-            {%{success: nil} = resp, ""} ->
-              responses = resp |> Map.from_struct() |> Map.values() |> Enum.reject(&(is_nil(&1)))
-              case(responses) do
-                [exception] ->
-                  {:error, {:exception, exception}}
-                [] ->
-                  {:ok, nil}
-              end
-            {%{success: success}, ""} ->
-              {:ok, success}
-          end
-        {:error, _} = err ->
-          err
-      end
+      (
+        deserialize_module = GetPreferredServerResponse.BinaryProtocol
+        rpc_name = "getPreferredServer"
+        ClientImpl.call(client, rpc_name, serialized_args, deserialize_module, opts)
+      )
     end
-    def(get_preferred_server(client, server_types, server_groups, failed_servers)) do
+    def(unquote(:get_preferred_server)(client, server_types, server_groups, failed_servers)) do
       get_preferred_server_with_options(client, server_types, server_groups, failed_servers, [])
     end
     def(get_preferred_server_with_options!(client, server_types, server_groups, failed_servers, opts)) do
@@ -415,7 +391,7 @@ defmodule(SnappyData.Thrift.LocatorService) do
           raise(err)
       end
     end
-    def(get_preferred_server!(client, server_types, server_groups, failed_servers)) do
+    def(unquote(:get_preferred_server!)(client, server_types, server_groups, failed_servers)) do
       get_preferred_server_with_options!(client, server_types, server_groups, failed_servers, [])
     end
   end
