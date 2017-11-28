@@ -7,9 +7,8 @@
 defmodule QueryTest do
   use ExUnit.Case
   import Snappyex.TestHelper
-#  require Decimal
   alias Snappyex, as: S
-  require SnappyData.Thrift.SecurityMechanism
+  require Thrift.Generated.SecurityMechanism
 
   setup do
     opts = [ backoff_type: :stop, sync_connect: true, hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()), 

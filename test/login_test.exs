@@ -3,7 +3,7 @@ defmodule LoginTest do
   import Snappyex.TestHelper
 
   alias Snappyex, as: S
-  require SnappyData.Thrift.SecurityMechanism
+  require Thrift.Generated.SecurityMechanism
   setup do
     opts = [ hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
              port: snappydata_port(), username: "APP", password: "APP",  security: SnappyData.Thrift.SecurityMechanism.plain, 
