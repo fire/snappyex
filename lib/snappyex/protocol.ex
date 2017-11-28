@@ -5,17 +5,16 @@ defmodule Snappyex.Protocol do
   require Logger
   alias Snappyex.Query, as: Query
   alias Snappyex.Cache, as: Cache
-  alias SnappyData.Thrift, as: Thrift
-  alias SnappyData.Thrift.SnappyDataService.Binary.Framed.Client
+  alias Thrift.Generated.SnappyDataService.Binary.Framed.Client
+  require Thrift.Generated.SecurityMechanism
   @time_out 5_000
 
   def connect(opts) do
-    Process.flag(:trap_exit, true)
     {:ok, hostname} = Keyword.fetch(opts, :hostname)
     {:ok, port} = Keyword.fetch(opts, :port)
     port = to_string(port)
     port = port |> String.to_integer
-    status = Client.start_link(hostname, port)
+    status = Client.start_link(hostname, port, [])
     connect_start_link(status, opts)
   end
 
@@ -28,13 +27,12 @@ defmodule Snappyex.Protocol do
     use_string_for_decimal = Keyword.get(opts, :use_string_for_decimal, false)
     {:ok, user_name} = Keyword.fetch(opts, :username)
     {:ok, password} = Keyword.fetch(opts, :password)
-    require SnappyData.Thrift.SecurityMechanism
-    security = Keyword.get(opts, :security, Thrift.SecurityMechanism.plain)
+    security = Keyword.get(opts, :security, Thrift.Generated.SecurityMechanism.plain)
     conn_properties = Keyword.get(opts, :properties, %{"load-balance" => "false", "sync-commits" => "true"})
     {:ok, client_host_name} = :inet.gethostname
     client_host_name = to_string(client_host_name)
     {:ok, properties} = Client.open_connection_with_options(pid,
-      %Thrift.OpenConnectionArgs{client_host_name: client_host_name,
+      %Thrift.Generated.OpenConnectionArgs{client_host_name: client_host_name,
                                  client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
                                  user_name: user_name,
                                  password: password,
@@ -108,14 +106,14 @@ defmodule Snappyex.Protocol do
   def handle_commit(_opts, state) do
     query = %Snappyex.Query{statement: 'COMMIT'}
     {:ok, prepared_query, state} = handle_prepare(query, [], state)
-    params = Map.put_new(Map.new, :params, %SnappyData.Thrift.Row{values: []})
+    params = Map.put_new(Map.new, :params, %Thrift.Generated.Row{values: []})
     handle_execute(prepared_query, params , [], state)
   end
 
   def handle_rollback(_opts, state) do
     query = %Snappyex.Query{statement: 'ROLLBACK'}
     {:ok, prepared_query, state} = handle_prepare(query, [], state)
-    params = Map.put_new(Map.new, :params, %SnappyData.Thrift.Row{values: []})
+    params = Map.put_new(Map.new, :params, %Thrift.Generated.Row{values: []})
     handle_execute(prepared_query, params , [], state)
   end
 
@@ -189,7 +187,7 @@ defmodule Snappyex.Protocol do
               statement_id,
               params,
               Map.new,
-              %SnappyData.Thrift.StatementAttrs{},
+              %Thrift.Generated.StatementAttrs{},
               token,
               gen_server_opts: [timeout: @time_out]) do
           {:ok, statement} ->
@@ -251,7 +249,7 @@ defmodule Snappyex.Protocol do
       output_parameters = Map.get(query, :output_parameters, Map.new)
       _statement_attributes = Map.get(query,
         :statement_attributes,
-        %SnappyData.Thrift.StatementAttrs{})
+        %Thrift.Generated.StatementAttrs{})
       case Client.prepare_statement_with_options(
             process_id,
             connection_id,
@@ -269,11 +267,11 @@ defmodule Snappyex.Protocol do
 
   defp decode_row_set_names(metadata) do
     Enum.map(metadata, fn descriptor ->
-      %SnappyData.Thrift.ColumnDescriptor{name: name} = descriptor
+      %Thrift.Generated.ColumnDescriptor{name: name} = descriptor
       name
     end)
   end
-  alias SnappyData.Thrift.SnappyType, as: SnappyType  
+  alias Thrift.Generated.SnappyType, as: SnappyType  
   defp decode_row_set_types(metadata) do
     for type <- metadata do
       {:ok, type} = SnappyType.value_to_name(type.type)

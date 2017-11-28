@@ -4,7 +4,7 @@
 
 require Logger
 defmodule Snappyex.Query do
-  alias SnappyData.Thrift.SnappyType, as: SnappyType
+  alias Thrift.Generated.SnappyType, as: SnappyType
   defstruct [:ref,
              :name,
              :statement,
@@ -34,28 +34,28 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     encode(param_formats, params)
   end
   defp encode(types, params) do
-    %SnappyData.Thrift.Row{values: encode_values(types, params, [])}
+    %Thrift.Generated.Row{values: encode_values(types, params, [])}
   end
   defp encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
   end
   defp encode_values([], [], acc), do: Enum.reverse(acc)
   defp encode_field(field, :integer) do
-    %SnappyData.Thrift.ColumnValue{i32_val: field}
+    %Thrift.Generated.ColumnValue{i32_val: field}
   end
   defp encode_field(field, :bigint) do
-    %SnappyData.Thrift.ColumnValue{i64_val: field}
+    %Thrift.Generated.ColumnValue{i64_val: field}
   end
   defp encode_field(field, :timestamp) do
     {date, time} = field
     {h, m, s, microsecond} = time
     {:ok, field} = NaiveDateTime.from_erl({date, {h, m, s}}, {microsecond, 0})
     {:ok, field} = DateTime.from_naive(field, "Etc/UTC")
-    %SnappyData.Thrift.ColumnValue{timestamp_val: DateTime.to_unix(field, :nanosecond)}
+    %Thrift.Generated.ColumnValue{timestamp_val: DateTime.to_unix(field, :nanosecond)}
   end
   defp encode_field(field, :varchar) do
-    %SnappyData.Thrift.ColumnValue{clob_val:
-      %SnappyData.Thrift.ClobChunk{
+    %Thrift.Generated.ColumnValue{clob_val:
+      %Thrift.Generated.ClobChunk{
         chunk: field,
         last: true,
         total_length: byte_size(field)
@@ -63,8 +63,8 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     }
   end
   defp encode_field(field, :clob) do
-    %SnappyData.Thrift.ColumnValue{clob_val:
-      %SnappyData.Thrift.ClobChunk{
+    %Thrift.Generated.ColumnValue{clob_val:
+      %Thrift.Generated.ClobChunk{
         chunk: field,
         last: true,
         total_length: byte_size(field)
@@ -72,12 +72,12 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     }
   end
   defp encode_field(field, :double) do
-    %SnappyData.Thrift.ColumnValue{double_val: field}
+    %Thrift.Generated.ColumnValue{double_val: field}
   end
   defp encode_field(field, :float) do
     use Bitwise, only_operators: true
     field = :io.format("~f", field)
-    %SnappyData.Thrift.ColumnValue{float_val: :erlang.float_to_binary(field)}
+    %Thrift.Generated.ColumnValue{float_val: :erlang.float_to_binary(field)}
   end
   defp decode(rows, columns), do: decode(rows, columns, [])
   def decode([row | rows], columns, acc) do
@@ -91,14 +91,14 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     %Snappyex.Result{res | columns: columns, rows: decode_map(rows, opts), 
       connection_id: decode_row_set_connection_id(row_set)}
   end
-  defp decode_row_set_connection_id(%SnappyData.Thrift.RowSet{conn_id: conn_id}) do
+  defp decode_row_set_connection_id(%Thrift.Generated.RowSet{conn_id: conn_id}) do
     conn_id
   end
   defp decode_row_set_connection_id(nil) do
     nil
   end
   defp decode_row([field | rows], [decoder | cols], acc) do
-    {:ok, type} = SnappyData.Thrift.SnappyType.value_to_name(decoder)
+    {:ok, type} = Thrift.Generated.SnappyType.value_to_name(decoder)
     decode_row(rows, cols, [decode_field(field, type) | acc])
   end
   defp decode_row([], [], acc), do: Enum.reverse(acc)
@@ -195,16 +195,16 @@ defimpl DBConnection.Query, for: Snappyex.Query do
 
   defp decode_blob(val) do
     case val do
-      %SnappyData.Thrift.BlobChunk{chunk: _chunk, last: true} -> val
-      %SnappyData.Thrift.BlobChunk{last: false} -> raise "Not Implemented"
+      %Thrift.Generated.BlobChunk{chunk: _chunk, last: true} -> val
+      %Thrift.Generated.BlobChunk{last: false} -> raise "Not Implemented"
       nil -> nil
     end
   end
 
   defp decode_clob(val) do
     case val do
-      %SnappyData.Thrift.ClobChunk{chunk: chunk, last: true} -> chunk
-      %SnappyData.Thrift.ClobChunk{last: false} -> raise "Not Implemented"
+      %Thrift.Generated.ClobChunk{chunk: chunk, last: true} -> chunk
+      %Thrift.Generated.ClobChunk{last: false} -> raise "Not Implemented"
       nil -> nil
     end
   end
@@ -213,9 +213,9 @@ defimpl DBConnection.Query, for: Snappyex.Query do
     nil
   end
 
-  defp decode_row_set(%SnappyData.Thrift.RowSet{rows: rows, metadata: metadata}) do
+  defp decode_row_set(%Thrift.Generated.RowSet{rows: rows, metadata: metadata}) do
     columns = Enum.map(metadata, fn descriptor ->
-      %SnappyData.Thrift.ColumnDescriptor{type: ordinal} = descriptor
+      %Thrift.Generated.ColumnDescriptor{type: ordinal} = descriptor
       ordinal
     end)
     decode(rows, columns)
