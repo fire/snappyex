@@ -20,6 +20,7 @@ defmodule Snappyex.Cache do
     case :ets.match(cache, {name, :"$1", :"$2"}) do
       [[id, ref]] ->
         {id, ref}
+
       [] ->
         nil
     end
@@ -28,7 +29,7 @@ defmodule Snappyex.Cache do
   def take(cache, name) do
     case :ets.take(cache, name) do
       [{_, id, ref}] -> {id, ref}
-      []           -> nil
+      [] -> nil
     end
   end
 

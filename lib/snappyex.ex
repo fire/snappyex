@@ -1,5 +1,5 @@
 defmodule Snappyex do
-  @moduledoc"""
+  @moduledoc """
   SnappyData Driver for Elixir
   """
 
@@ -30,7 +30,7 @@ defmodule Snappyex do
   @doc """
   Returns a supervisor child specification for a DBConnection pool.
   """
-  @spec child_spec(Keyword.t) :: Supervisor.Spec.spec
+  @spec child_spec(Keyword.t()) :: Supervisor.Spec.spec()
   def child_spec(opts) do
     DBConnection.child_spec(Snappyex.Protocol, opts)
   end

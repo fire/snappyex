@@ -4,18 +4,28 @@ defmodule LoginTest do
 
   alias Snappyex, as: S
   require Thrift.Generated.SecurityMechanism
+
   setup do
-    opts = [ hostname: snappydata_address(), client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
-             port: snappydata_port(), username: "APP", password: "APP",  security: Thrift.Generated.SecurityMechanism.plain, 
-     token_size: 16, use_string_for_decimal: false, properties: snappydata_properties()]
+    opts = [
+      hostname: snappydata_address(),
+      client_id: "ElixirClient1|0x" <> Base.encode16(inspect(self())),
+      port: snappydata_port(),
+      username: "APP",
+      password: "APP",
+      security: Thrift.Generated.SecurityMechanism.plain(),
+      token_size: 16,
+      use_string_for_decimal: false,
+      properties: snappydata_properties()
+    ]
+
     {:ok, pid} = S.start_link(opts)
     Process.flag(:trap_exit, true)
     {:ok, [pid: pid]}
   end
 
   test "login cleartext password", context do
-    capture_log fn ->
-    assert [[1]] == query("SELECT 1", [])
-    end
+    capture_log(fn ->
+      assert [[1]] == query("SELECT 1", [])
+    end)
   end
 end
