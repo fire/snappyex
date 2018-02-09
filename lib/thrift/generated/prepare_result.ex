@@ -75,17 +75,17 @@ defmodule(Thrift.Generated.PrepareResult) do
     def(serialize(%Thrift.Generated.PrepareResult{statement_id: statement_id, statement_type: statement_type, parameter_meta_data: parameter_meta_data, result_set_meta_data: result_set_meta_data, warnings: warnings})) do
       [case(statement_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :statement_id on Thrift.Generated.PrepareResult must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :statement_id on Thrift.Generated.PrepareResult must not be nil")
         _ ->
           <<10, 1::16-signed, statement_id::64-signed>>
       end, case(statement_type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :statement_type on Thrift.Generated.PrepareResult must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :statement_type on Thrift.Generated.PrepareResult must not be nil")
         _ ->
           <<3, 2::16-signed, statement_type::8-signed>>
       end, case(parameter_meta_data) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :parameter_meta_data on Thrift.Generated.PrepareResult must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :parameter_meta_data on Thrift.Generated.PrepareResult must not be nil")
         _ ->
           [<<15, 3::16-signed, 12, length(parameter_meta_data)::32-signed>> | for(e <- parameter_meta_data) do
             Thrift.Generated.ColumnDescriptor.serialize(e)

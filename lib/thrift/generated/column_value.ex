@@ -263,7 +263,7 @@ defmodule(Thrift.Generated.ColumnValue) do
         {key, _} ->
           [key]
       end)
-      raise(%Thrift.Union.TooManyFieldsSetException{message: "Thrift union has more than one field set", set_fields: set_fields})
+      raise(%Thrift.Union.TooManyFieldsSetError{message: "Thrift union has more than one field set", set_fields: set_fields})
     end
   end
   def(serialize(struct)) do

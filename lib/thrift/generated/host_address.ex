@@ -38,12 +38,12 @@ defmodule(Thrift.Generated.HostAddress) do
     def(serialize(%Thrift.Generated.HostAddress{host_name: host_name, port: port, ip_address: ip_address, server_type: server_type})) do
       [case(host_name) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :host_name on Thrift.Generated.HostAddress must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :host_name on Thrift.Generated.HostAddress must not be nil")
         _ ->
           [<<11, 1::16-signed, byte_size(host_name)::32-signed>> | host_name]
       end, case(port) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :port on Thrift.Generated.HostAddress must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :port on Thrift.Generated.HostAddress must not be nil")
         _ ->
           <<8, 2::16-signed, port::32-signed>>
       end, case(ip_address) do

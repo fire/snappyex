@@ -46,17 +46,17 @@ defmodule(Thrift.Generated.ConnectionProperties) do
     def(serialize(%Thrift.Generated.ConnectionProperties{conn_id: conn_id, client_host_name: client_host_name, client_id: client_id, user_name: user_name, token: token, default_schema: default_schema})) do
       [case(conn_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :conn_id on Thrift.Generated.ConnectionProperties must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :conn_id on Thrift.Generated.ConnectionProperties must not be nil")
         _ ->
           <<10, 1::16-signed, conn_id::64-signed>>
       end, case(client_host_name) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :client_host_name on Thrift.Generated.ConnectionProperties must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :client_host_name on Thrift.Generated.ConnectionProperties must not be nil")
         _ ->
           [<<11, 2::16-signed, byte_size(client_host_name)::32-signed>> | client_host_name]
       end, case(client_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :client_id on Thrift.Generated.ConnectionProperties must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :client_id on Thrift.Generated.ConnectionProperties must not be nil")
         _ ->
           [<<11, 3::16-signed, byte_size(client_id)::32-signed>> | client_id]
       end, case(user_name) do

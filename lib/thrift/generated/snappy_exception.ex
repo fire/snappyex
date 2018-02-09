@@ -59,12 +59,12 @@ defmodule(Thrift.Generated.SnappyException) do
     def(serialize(%Thrift.Generated.SnappyException{exception_data: exception_data, server_info: server_info, next_exceptions: next_exceptions})) do
       [case(exception_data) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :exception_data on Thrift.Generated.SnappyException must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :exception_data on Thrift.Generated.SnappyException must not be nil")
         _ ->
           [<<12, 1::16-signed>> | Thrift.Generated.SnappyExceptionData.serialize(exception_data)]
       end, case(server_info) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :server_info on Thrift.Generated.SnappyException must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :server_info on Thrift.Generated.SnappyException must not be nil")
         _ ->
           [<<11, 2::16-signed, byte_size(server_info)::32-signed>> | server_info]
       end, case(next_exceptions) do

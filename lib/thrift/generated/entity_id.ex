@@ -38,22 +38,22 @@ defmodule(Thrift.Generated.EntityId) do
     def(serialize(%Thrift.Generated.EntityId{id: id, type: type, conn_id: conn_id, token: token})) do
       [case(id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :id on Thrift.Generated.EntityId must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :id on Thrift.Generated.EntityId must not be nil")
         _ ->
           <<10, 1::16-signed, id::64-signed>>
       end, case(type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :type on Thrift.Generated.EntityId must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :type on Thrift.Generated.EntityId must not be nil")
         _ ->
           <<3, 2::16-signed, type::8-signed>>
       end, case(conn_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :conn_id on Thrift.Generated.EntityId must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :conn_id on Thrift.Generated.EntityId must not be nil")
         _ ->
           <<10, 3::16-signed, conn_id::64-signed>>
       end, case(token) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :token on Thrift.Generated.EntityId must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :token on Thrift.Generated.EntityId must not be nil")
         _ ->
           [<<11, 4::16-signed, byte_size(token)::32-signed>> | token]
       end | <<0>>]

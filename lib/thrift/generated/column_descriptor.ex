@@ -101,12 +101,12 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
     def(serialize(%Thrift.Generated.ColumnDescriptor{type: type, precision: precision, scale: scale, name: name, full_table_name: full_table_name, updatable: updatable, definitely_updatable: definitely_updatable, nullable: nullable, auto_increment: auto_increment, parameter_in: parameter_in, parameter_out: parameter_out, element_types: element_types, udt_type_and_class_name: udt_type_and_class_name})) do
       [case(type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :type on Thrift.Generated.ColumnDescriptor must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :type on Thrift.Generated.ColumnDescriptor must not be nil")
         _ ->
           <<8, 1::16-signed, type::32-signed>>
       end, case(precision) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :precision on Thrift.Generated.ColumnDescriptor must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :precision on Thrift.Generated.ColumnDescriptor must not be nil")
         _ ->
           <<6, 2::16-signed, precision::16-signed>>
       end, case(scale) do
@@ -132,7 +132,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 6::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :updatable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :updatable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(definitely_updatable) do
         nil ->
           <<>>
@@ -141,7 +141,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 7::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :definitely_updatable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :definitely_updatable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(nullable) do
         nil ->
           <<>>
@@ -150,7 +150,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 8::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :nullable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :nullable on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(auto_increment) do
         nil ->
           <<>>
@@ -159,7 +159,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 9::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :auto_increment on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :auto_increment on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(parameter_in) do
         nil ->
           <<>>
@@ -168,7 +168,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 10::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :parameter_in on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :parameter_in on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(parameter_out) do
         nil ->
           <<>>
@@ -177,7 +177,7 @@ defmodule(Thrift.Generated.ColumnDescriptor) do
         true ->
           <<2, 11::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :parameter_out on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :parameter_out on Thrift.Generated.ColumnDescriptor must be true, false, or nil")
       end, case(element_types) do
         nil ->
           <<>>

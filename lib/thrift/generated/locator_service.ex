@@ -341,23 +341,14 @@ defmodule(Thrift.Generated.LocatorService) do
     alias(Thrift.Binary.Framed.Client, as: ClientImpl)
     defdelegate(close(conn), to: ClientImpl)
     defdelegate(connect(conn, opts), to: ClientImpl)
-    def(start_link(host, port, opts \\ [])) do
-      ClientImpl.start_link(host, port, opts)
+    defdelegate(start_link(host, port, opts \\ []), to: ClientImpl)
+    def(unquote(:get_all_servers_with_preferred_server)(client, server_types, server_groups, failed_servers, rpc_opts \\ [])) do
+      args = %GetAllServersWithPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
+      serialized_args = GetAllServersWithPreferredServerArgs.BinaryProtocol.serialize(args)
+      ClientImpl.call(client, "getAllServersWithPreferredServer", serialized_args, GetAllServersWithPreferredServerResponse.BinaryProtocol, rpc_opts)
     end
-    def(get_all_servers_with_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
-      args = %Thrift.Generated.LocatorService.GetAllServersWithPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
-      serialized_args = Elixir.Thrift.Generated.LocatorService.GetAllServersWithPreferredServerArgs.BinaryProtocol.serialize(args)
-      (
-        deserialize_module = GetAllServersWithPreferredServerResponse.BinaryProtocol
-        rpc_name = "getAllServersWithPreferredServer"
-        ClientImpl.call(client, rpc_name, serialized_args, deserialize_module, opts)
-      )
-    end
-    def(unquote(:get_all_servers_with_preferred_server)(client, server_types, server_groups, failed_servers)) do
-      get_all_servers_with_preferred_server_with_options(client, server_types, server_groups, failed_servers, [])
-    end
-    def(get_all_servers_with_preferred_server_with_options!(client, server_types, server_groups, failed_servers, opts)) do
-      case(get_all_servers_with_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
+    def(unquote(:get_all_servers_with_preferred_server!)(client, server_types, server_groups, failed_servers, rpc_opts \\ [])) do
+      case(unquote(:get_all_servers_with_preferred_server)(client, server_types, server_groups, failed_servers, rpc_opts)) do
         {:ok, rsp} ->
           rsp
         {:error, {:exception, ex}} ->
@@ -366,23 +357,13 @@ defmodule(Thrift.Generated.LocatorService) do
           raise(err)
       end
     end
-    def(unquote(:get_all_servers_with_preferred_server!)(client, server_types, server_groups, failed_servers)) do
-      get_all_servers_with_preferred_server_with_options!(client, server_types, server_groups, failed_servers, [])
+    def(unquote(:get_preferred_server)(client, server_types, server_groups, failed_servers, rpc_opts \\ [])) do
+      args = %GetPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
+      serialized_args = GetPreferredServerArgs.BinaryProtocol.serialize(args)
+      ClientImpl.call(client, "getPreferredServer", serialized_args, GetPreferredServerResponse.BinaryProtocol, rpc_opts)
     end
-    def(get_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
-      args = %Thrift.Generated.LocatorService.GetPreferredServerArgs{server_types: server_types, server_groups: server_groups, failed_servers: failed_servers}
-      serialized_args = Elixir.Thrift.Generated.LocatorService.GetPreferredServerArgs.BinaryProtocol.serialize(args)
-      (
-        deserialize_module = GetPreferredServerResponse.BinaryProtocol
-        rpc_name = "getPreferredServer"
-        ClientImpl.call(client, rpc_name, serialized_args, deserialize_module, opts)
-      )
-    end
-    def(unquote(:get_preferred_server)(client, server_types, server_groups, failed_servers)) do
-      get_preferred_server_with_options(client, server_types, server_groups, failed_servers, [])
-    end
-    def(get_preferred_server_with_options!(client, server_types, server_groups, failed_servers, opts)) do
-      case(get_preferred_server_with_options(client, server_types, server_groups, failed_servers, opts)) do
+    def(unquote(:get_preferred_server!)(client, server_types, server_groups, failed_servers, rpc_opts \\ [])) do
+      case(unquote(:get_preferred_server)(client, server_types, server_groups, failed_servers, rpc_opts)) do
         {:ok, rsp} ->
           rsp
         {:error, {:exception, ex}} ->
@@ -390,9 +371,6 @@ defmodule(Thrift.Generated.LocatorService) do
         {:error, _} = err ->
           raise(err)
       end
-    end
-    def(unquote(:get_preferred_server!)(client, server_types, server_groups, failed_servers)) do
-      get_preferred_server_with_options!(client, server_types, server_groups, failed_servers, [])
     end
   end
   defmodule(Binary.Framed.Server) do

@@ -117,29 +117,29 @@ defmodule(Thrift.Generated.RowSet) do
     def(serialize(%Thrift.Generated.RowSet{rows: rows, flags: flags, cursor_id: cursor_id, statement_id: statement_id, conn_id: conn_id, token: token, source: source, offset: offset, metadata: metadata, cursor_name: cursor_name, warnings: warnings, row_ids_for_update_or_delete: row_ids_for_update_or_delete})) do
       [case(rows) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :rows on Thrift.Generated.RowSet must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :rows on Thrift.Generated.RowSet must not be nil")
         _ ->
           [<<15, 1::16-signed, 12, length(rows)::32-signed>> | for(e <- rows) do
             Thrift.Generated.Row.serialize(e)
           end]
       end, case(flags) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :flags on Thrift.Generated.RowSet must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :flags on Thrift.Generated.RowSet must not be nil")
         _ ->
           <<3, 2::16-signed, flags::8-signed>>
       end, case(cursor_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :cursor_id on Thrift.Generated.RowSet must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :cursor_id on Thrift.Generated.RowSet must not be nil")
         _ ->
           <<10, 3::16-signed, cursor_id::64-signed>>
       end, case(statement_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :statement_id on Thrift.Generated.RowSet must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :statement_id on Thrift.Generated.RowSet must not be nil")
         _ ->
           <<10, 4::16-signed, statement_id::64-signed>>
       end, case(conn_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :conn_id on Thrift.Generated.RowSet must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :conn_id on Thrift.Generated.RowSet must not be nil")
         _ ->
           <<10, 5::16-signed, conn_id::64-signed>>
       end, case(token) do

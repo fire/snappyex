@@ -79,17 +79,17 @@ defmodule(Thrift.Generated.OpenConnectionArgs) do
     def(serialize(%Thrift.Generated.OpenConnectionArgs{client_host_name: client_host_name, client_id: client_id, security: security, user_name: user_name, password: password, for_xa: for_xa, token_size: token_size, use_string_for_decimal: use_string_for_decimal, properties: properties})) do
       [case(client_host_name) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :client_host_name on Thrift.Generated.OpenConnectionArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :client_host_name on Thrift.Generated.OpenConnectionArgs must not be nil")
         _ ->
           [<<11, 1::16-signed, byte_size(client_host_name)::32-signed>> | client_host_name]
       end, case(client_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :client_id on Thrift.Generated.OpenConnectionArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :client_id on Thrift.Generated.OpenConnectionArgs must not be nil")
         _ ->
           [<<11, 2::16-signed, byte_size(client_id)::32-signed>> | client_id]
       end, case(security) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :security on Thrift.Generated.OpenConnectionArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :security on Thrift.Generated.OpenConnectionArgs must not be nil")
         _ ->
           <<8, 3::16-signed, security::32-signed>>
       end, case(user_name) do
@@ -110,7 +110,7 @@ defmodule(Thrift.Generated.OpenConnectionArgs) do
         true ->
           <<2, 6::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :for_xa on Thrift.Generated.OpenConnectionArgs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :for_xa on Thrift.Generated.OpenConnectionArgs must be true, false, or nil")
       end, case(token_size) do
         nil ->
           <<>>
@@ -124,7 +124,7 @@ defmodule(Thrift.Generated.OpenConnectionArgs) do
         true ->
           <<2, 8::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :use_string_for_decimal on Thrift.Generated.OpenConnectionArgs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :use_string_for_decimal on Thrift.Generated.OpenConnectionArgs must be true, false, or nil")
       end, case(properties) do
         nil ->
           <<>>

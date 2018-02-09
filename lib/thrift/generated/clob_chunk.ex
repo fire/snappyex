@@ -45,7 +45,7 @@ defmodule(Thrift.Generated.ClobChunk) do
     def(serialize(%Thrift.Generated.ClobChunk{chunk: chunk, last: last, lob_id: lob_id, offset: offset, total_length: total_length})) do
       [case(chunk) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :chunk on Thrift.Generated.ClobChunk must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :chunk on Thrift.Generated.ClobChunk must not be nil")
         _ ->
           [<<11, 1::16-signed, byte_size(chunk)::32-signed>> | chunk]
       end, case(last) do
@@ -54,7 +54,7 @@ defmodule(Thrift.Generated.ClobChunk) do
         true ->
           <<2, 2::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Required boolean field :last on Thrift.Generated.ClobChunk must be true or false")
+          raise(Thrift.InvalidValueError, "Required boolean field :last on Thrift.Generated.ClobChunk must be true or false")
       end, case(lob_id) do
         nil ->
           <<>>

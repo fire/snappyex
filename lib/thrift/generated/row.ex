@@ -40,7 +40,7 @@ defmodule(Thrift.Generated.Row) do
     def(serialize(%Thrift.Generated.Row{values: values})) do
       [case(values) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :values on Thrift.Generated.Row must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :values on Thrift.Generated.Row must not be nil")
         _ ->
           [<<15, 1::16-signed, 12, length(values)::32-signed>> | for(e <- values) do
             Thrift.Generated.ColumnValue.serialize(e)

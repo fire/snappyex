@@ -34,17 +34,17 @@ defmodule(Thrift.Generated.TransactionXid) do
     def(serialize(%Thrift.Generated.TransactionXid{format_id: format_id, global_id: global_id, branch_qualifier: branch_qualifier})) do
       [case(format_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :format_id on Thrift.Generated.TransactionXid must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :format_id on Thrift.Generated.TransactionXid must not be nil")
         _ ->
           <<8, 1::16-signed, format_id::32-signed>>
       end, case(global_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :global_id on Thrift.Generated.TransactionXid must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :global_id on Thrift.Generated.TransactionXid must not be nil")
         _ ->
           [<<11, 2::16-signed, byte_size(global_id)::32-signed>> | global_id]
       end, case(branch_qualifier) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :branch_qualifier on Thrift.Generated.TransactionXid must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :branch_qualifier on Thrift.Generated.TransactionXid must not be nil")
         _ ->
           [<<11, 3::16-signed, byte_size(branch_qualifier)::32-signed>> | branch_qualifier]
       end | <<0>>]

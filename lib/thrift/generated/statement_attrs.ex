@@ -175,7 +175,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 2::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :updatable on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :updatable on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(hold_cursors_over_commit) do
         nil ->
           <<>>
@@ -184,7 +184,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 3::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :hold_cursors_over_commit on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :hold_cursors_over_commit on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(require_auto_inc_cols) do
         nil ->
           <<>>
@@ -193,7 +193,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 4::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :require_auto_inc_cols on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :require_auto_inc_cols on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(auto_inc_columns) do
         nil ->
           <<>>
@@ -221,7 +221,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 8::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :fetch_reverse on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :fetch_reverse on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(lob_chunk_size) do
         nil ->
           <<>>
@@ -255,7 +255,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 14::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :possible_duplicate on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :possible_duplicate on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(poolable) do
         nil ->
           <<>>
@@ -264,7 +264,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 15::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :poolable on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :poolable on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(do_escape_processing) do
         nil ->
           <<>>
@@ -273,7 +273,7 @@ defmodule(Thrift.Generated.StatementAttrs) do
         true ->
           <<2, 16::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Optional boolean field :do_escape_processing on Thrift.Generated.StatementAttrs must be true, false, or nil")
+          raise(Thrift.InvalidValueError, "Optional boolean field :do_escape_processing on Thrift.Generated.StatementAttrs must be true, false, or nil")
       end, case(pending_transaction_attrs) do
         nil ->
           <<>>

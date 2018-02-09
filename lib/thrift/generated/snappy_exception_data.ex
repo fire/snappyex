@@ -47,12 +47,12 @@ defmodule(Thrift.Generated.SnappyExceptionData) do
     def(serialize(%Thrift.Generated.SnappyExceptionData{reason: reason, error_code: error_code, sql_state: sql_state, update_counts: update_counts})) do
       [case(reason) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :reason on Thrift.Generated.SnappyExceptionData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :reason on Thrift.Generated.SnappyExceptionData must not be nil")
         _ ->
           [<<11, 1::16-signed, byte_size(reason)::32-signed>> | reason]
       end, case(error_code) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :error_code on Thrift.Generated.SnappyExceptionData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :error_code on Thrift.Generated.SnappyExceptionData must not be nil")
         _ ->
           <<8, 2::16-signed, error_code::32-signed>>
       end, case(sql_state) do

@@ -343,77 +343,77 @@ defmodule(Thrift.Generated.ServiceMetaData) do
     def(serialize(%Thrift.Generated.ServiceMetaData{product_name: product_name, product_version: product_version, product_major_version: product_major_version, product_minor_version: product_minor_version, jdbc_major_version: jdbc_major_version, jdbc_minor_version: jdbc_minor_version, identifier_quote: identifier_quote, sql_keywords: sql_keywords, numeric_functions: numeric_functions, string_functions: string_functions, system_functions: system_functions, date_time_functions: date_time_functions, search_string_escape: search_string_escape, extra_name_characters: extra_name_characters, supported_convert: supported_convert, schema_term: schema_term, procedure_term: procedure_term, catalog_term: catalog_term, catalog_separator: catalog_separator, max_binary_literal_length: max_binary_literal_length, max_char_literal_length: max_char_literal_length, max_columns_in_group_by: max_columns_in_group_by, max_columns_in_index: max_columns_in_index, max_columns_in_order_by: max_columns_in_order_by, max_columns_in_select: max_columns_in_select, max_columns_in_table: max_columns_in_table, max_connections: max_connections, max_index_length: max_index_length, max_row_size: max_row_size, max_statement_length: max_statement_length, max_open_statements: max_open_statements, max_table_names_in_select: max_table_names_in_select, max_column_name_length: max_column_name_length, max_cursor_name_length: max_cursor_name_length, max_schema_name_length: max_schema_name_length, max_procedure_name_length: max_procedure_name_length, max_catalog_name_length: max_catalog_name_length, max_table_name_length: max_table_name_length, max_user_name_length: max_user_name_length, default_transaction_isolation: default_transaction_isolation, default_result_set_type: default_result_set_type, default_result_set_holdability_hold_cursors_over_commit: default_result_set_holdability_hold_cursors_over_commit, sql_state_is_x_open: sql_state_is_x_open, catalog_at_start: catalog_at_start, transaction_defaults: transaction_defaults, row_id_life_time: row_id_life_time, supported_features: supported_features, features_with_params: features_with_params})) do
       [case(product_name) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :product_name on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :product_name on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 1::16-signed, byte_size(product_name)::32-signed>> | product_name]
       end, case(product_version) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :product_version on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :product_version on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 2::16-signed, byte_size(product_version)::32-signed>> | product_version]
       end, case(product_major_version) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :product_major_version on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :product_major_version on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 3::16-signed, product_major_version::32-signed>>
       end, case(product_minor_version) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :product_minor_version on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :product_minor_version on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 4::16-signed, product_minor_version::32-signed>>
       end, case(jdbc_major_version) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :jdbc_major_version on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :jdbc_major_version on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 5::16-signed, jdbc_major_version::32-signed>>
       end, case(jdbc_minor_version) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :jdbc_minor_version on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :jdbc_minor_version on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 6::16-signed, jdbc_minor_version::32-signed>>
       end, case(identifier_quote) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :identifier_quote on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :identifier_quote on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 7::16-signed, byte_size(identifier_quote)::32-signed>> | identifier_quote]
       end, case(sql_keywords) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :sql_keywords on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :sql_keywords on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<15, 8::16-signed, 11, length(sql_keywords)::32-signed>> | for(e <- sql_keywords) do
             [<<byte_size(e)::32-signed>> | e]
           end]
       end, case(numeric_functions) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :numeric_functions on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :numeric_functions on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<15, 9::16-signed, 11, length(numeric_functions)::32-signed>> | for(e <- numeric_functions) do
             [<<byte_size(e)::32-signed>> | e]
           end]
       end, case(string_functions) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :string_functions on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :string_functions on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<15, 10::16-signed, 11, length(string_functions)::32-signed>> | for(e <- string_functions) do
             [<<byte_size(e)::32-signed>> | e]
           end]
       end, case(system_functions) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :system_functions on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :system_functions on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<15, 11::16-signed, 11, length(system_functions)::32-signed>> | for(e <- system_functions) do
             [<<byte_size(e)::32-signed>> | e]
           end]
       end, case(date_time_functions) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :date_time_functions on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :date_time_functions on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<15, 12::16-signed, 11, length(date_time_functions)::32-signed>> | for(e <- date_time_functions) do
             [<<byte_size(e)::32-signed>> | e]
           end]
       end, case(search_string_escape) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :search_string_escape on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :search_string_escape on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 13::16-signed, byte_size(search_string_escape)::32-signed>> | search_string_escape]
       end, case(extra_name_characters) do
@@ -423,7 +423,7 @@ defmodule(Thrift.Generated.ServiceMetaData) do
           [<<11, 14::16-signed, byte_size(extra_name_characters)::32-signed>> | extra_name_characters]
       end, case(supported_convert) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :supported_convert on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :supported_convert on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<13, 15::16-signed, 8, 14, Enum.count(supported_convert)::32-signed>> | for({k, v} <- supported_convert) do
             [<<k::32-signed, 8, Enum.count(v)::32-signed>> | for(e <- v) do
@@ -432,132 +432,132 @@ defmodule(Thrift.Generated.ServiceMetaData) do
           end]
       end, case(schema_term) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :schema_term on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :schema_term on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 16::16-signed, byte_size(schema_term)::32-signed>> | schema_term]
       end, case(procedure_term) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :procedure_term on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :procedure_term on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 17::16-signed, byte_size(procedure_term)::32-signed>> | procedure_term]
       end, case(catalog_term) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :catalog_term on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :catalog_term on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 18::16-signed, byte_size(catalog_term)::32-signed>> | catalog_term]
       end, case(catalog_separator) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :catalog_separator on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :catalog_separator on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<11, 19::16-signed, byte_size(catalog_separator)::32-signed>> | catalog_separator]
       end, case(max_binary_literal_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_binary_literal_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_binary_literal_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 20::16-signed, max_binary_literal_length::32-signed>>
       end, case(max_char_literal_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_char_literal_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_char_literal_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 21::16-signed, max_char_literal_length::32-signed>>
       end, case(max_columns_in_group_by) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_columns_in_group_by on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_columns_in_group_by on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 22::16-signed, max_columns_in_group_by::32-signed>>
       end, case(max_columns_in_index) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_columns_in_index on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_columns_in_index on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 23::16-signed, max_columns_in_index::32-signed>>
       end, case(max_columns_in_order_by) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_columns_in_order_by on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_columns_in_order_by on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 24::16-signed, max_columns_in_order_by::32-signed>>
       end, case(max_columns_in_select) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_columns_in_select on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_columns_in_select on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 25::16-signed, max_columns_in_select::32-signed>>
       end, case(max_columns_in_table) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_columns_in_table on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_columns_in_table on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 26::16-signed, max_columns_in_table::32-signed>>
       end, case(max_connections) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_connections on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_connections on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 27::16-signed, max_connections::32-signed>>
       end, case(max_index_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_index_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_index_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 28::16-signed, max_index_length::32-signed>>
       end, case(max_row_size) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_row_size on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_row_size on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 29::16-signed, max_row_size::32-signed>>
       end, case(max_statement_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_statement_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_statement_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 30::16-signed, max_statement_length::32-signed>>
       end, case(max_open_statements) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_open_statements on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_open_statements on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 31::16-signed, max_open_statements::32-signed>>
       end, case(max_table_names_in_select) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_table_names_in_select on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_table_names_in_select on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 32::16-signed, max_table_names_in_select::32-signed>>
       end, case(max_column_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_column_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_column_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 33::16-signed, max_column_name_length::32-signed>>
       end, case(max_cursor_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_cursor_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_cursor_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 34::16-signed, max_cursor_name_length::32-signed>>
       end, case(max_schema_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_schema_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_schema_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 35::16-signed, max_schema_name_length::32-signed>>
       end, case(max_procedure_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_procedure_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_procedure_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 36::16-signed, max_procedure_name_length::32-signed>>
       end, case(max_catalog_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_catalog_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_catalog_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 37::16-signed, max_catalog_name_length::32-signed>>
       end, case(max_table_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_table_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_table_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 38::16-signed, max_table_name_length::32-signed>>
       end, case(max_user_name_length) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :max_user_name_length on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :max_user_name_length on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 39::16-signed, max_user_name_length::32-signed>>
       end, case(default_transaction_isolation) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :default_transaction_isolation on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :default_transaction_isolation on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 40::16-signed, default_transaction_isolation::32-signed>>
       end, case(default_result_set_type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :default_result_set_type on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :default_result_set_type on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<3, 41::16-signed, default_result_set_type::8-signed>>
       end, case(default_result_set_holdability_hold_cursors_over_commit) do
@@ -566,24 +566,24 @@ defmodule(Thrift.Generated.ServiceMetaData) do
         true ->
           <<2, 42::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Required boolean field :default_result_set_holdability_hold_cursors_over_commit on Thrift.Generated.ServiceMetaData must be true or false")
+          raise(Thrift.InvalidValueError, "Required boolean field :default_result_set_holdability_hold_cursors_over_commit on Thrift.Generated.ServiceMetaData must be true or false")
       end, case(sql_state_is_x_open) do
         false ->
           <<2, 43::16-signed, 0>>
         true ->
           <<2, 43::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Required boolean field :sql_state_is_x_open on Thrift.Generated.ServiceMetaData must be true or false")
+          raise(Thrift.InvalidValueError, "Required boolean field :sql_state_is_x_open on Thrift.Generated.ServiceMetaData must be true or false")
       end, case(catalog_at_start) do
         false ->
           <<2, 44::16-signed, 0>>
         true ->
           <<2, 44::16-signed, 1>>
         _ ->
-          raise(Thrift.InvalidValueException, "Required boolean field :catalog_at_start on Thrift.Generated.ServiceMetaData must be true or false")
+          raise(Thrift.InvalidValueError, "Required boolean field :catalog_at_start on Thrift.Generated.ServiceMetaData must be true or false")
       end, case(transaction_defaults) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :transaction_defaults on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :transaction_defaults on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<13, 45::16-signed, 8, 2, Enum.count(transaction_defaults)::32-signed>> | for({k, v} <- transaction_defaults) do
             [<<k::32-signed>> | case(v) do
@@ -597,19 +597,19 @@ defmodule(Thrift.Generated.ServiceMetaData) do
           end]
       end, case(row_id_life_time) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :row_id_life_time on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :row_id_life_time on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           <<8, 46::16-signed, row_id_life_time::32-signed>>
       end, case(supported_features) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :supported_features on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :supported_features on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<14, 47::16-signed, 8, Enum.count(supported_features)::32-signed>> | for(e <- supported_features) do
             <<e::32-signed>>
           end]
       end, case(features_with_params) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :features_with_params on Thrift.Generated.ServiceMetaData must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :features_with_params on Thrift.Generated.ServiceMetaData must not be nil")
         _ ->
           [<<13, 48::16-signed, 8, 15, Enum.count(features_with_params)::32-signed>> | for({k, v} <- features_with_params) do
             [<<k::32-signed, 8, length(v)::32-signed>> | for(e <- v) do

@@ -31,7 +31,7 @@ defmodule Snappyex.Protocol do
     conn_properties = Keyword.get(opts, :properties, %{"load-balance" => "false", "sync-commits" => "true"})
     {:ok, client_host_name} = :inet.gethostname
     client_host_name = to_string(client_host_name)
-    {:ok, properties} = Client.open_connection_with_options(pid,
+    {:ok, properties} = Client.open_connection(pid,
       %Thrift.Generated.OpenConnectionArgs{client_host_name: client_host_name,
                                  client_id: "ElixirClient1|0x" <> Base.encode16(inspect self()),
                                  user_name: user_name,
@@ -122,7 +122,7 @@ defmodule Snappyex.Protocol do
     {:ok, token} = Keyword.fetch(state, :token)
     {:ok, flags} = Map.fetch(opts, :flags)
     {:ok, connection_id} = Keyword.fetch(state, :connection_id)
-    case Client.begin_transaction_with_options(process_id,
+    case Client.begin_transaction(process_id,
           connection_id,
           @repeatable_read,
           flags,
@@ -183,7 +183,7 @@ defmodule Snappyex.Protocol do
     {:ok, token} = Keyword.fetch(state, :token)
     case execute_lookup(query, state) do
       {:execute, statement_id, _query} ->
-        case Client.execute_prepared_with_options(process_id,
+        case Client.execute_prepared(process_id,
               statement_id,
               params,
               Map.new,
@@ -234,7 +234,7 @@ defmodule Snappyex.Protocol do
   defp close_prepare(statement_id, %Snappyex.Query{statement: _statement} = query, state) do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
-    Client.close_statement_with_options(
+    Client.close_statement(
       process_id,
       statement_id,
       token,
@@ -250,7 +250,7 @@ defmodule Snappyex.Protocol do
       _statement_attributes = Map.get(query,
         :statement_attributes,
         %Thrift.Generated.StatementAttrs{})
-      case Client.prepare_statement_with_options(
+      case Client.prepare_statement(
             process_id,
             connection_id,
             to_string(query.statement),

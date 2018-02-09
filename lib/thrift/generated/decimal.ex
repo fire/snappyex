@@ -34,17 +34,17 @@ defmodule(Thrift.Generated.Decimal) do
     def(serialize(%Thrift.Generated.Decimal{signum: signum, scale: scale, magnitude: magnitude})) do
       [case(signum) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :signum on Thrift.Generated.Decimal must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :signum on Thrift.Generated.Decimal must not be nil")
         _ ->
           <<3, 1::16-signed, signum::8-signed>>
       end, case(scale) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :scale on Thrift.Generated.Decimal must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :scale on Thrift.Generated.Decimal must not be nil")
         _ ->
           <<8, 2::16-signed, scale::32-signed>>
       end, case(magnitude) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :magnitude on Thrift.Generated.Decimal must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :magnitude on Thrift.Generated.Decimal must not be nil")
         _ ->
           [<<11, 3::16-signed, byte_size(magnitude)::32-signed>> | magnitude]
       end | <<0>>]

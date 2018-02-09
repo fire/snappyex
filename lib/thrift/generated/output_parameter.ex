@@ -34,7 +34,7 @@ defmodule(Thrift.Generated.OutputParameter) do
     def(serialize(%Thrift.Generated.OutputParameter{type: type, scale: scale, type_name: type_name})) do
       [case(type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :type on Thrift.Generated.OutputParameter must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :type on Thrift.Generated.OutputParameter must not be nil")
         _ ->
           <<8, 1::16-signed, type::32-signed>>
       end, case(scale) do

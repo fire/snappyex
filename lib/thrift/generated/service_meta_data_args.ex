@@ -87,17 +87,17 @@ defmodule(Thrift.Generated.ServiceMetaDataArgs) do
     def(serialize(%Thrift.Generated.ServiceMetaDataArgs{conn_id: conn_id, driver_type: driver_type, token: token, schema: schema, table: table, table_types: table_types, column_name: column_name, foreign_schema: foreign_schema, foreign_table: foreign_table, procedure_name: procedure_name, function_name: function_name, attribute_name: attribute_name, type_name: type_name, type_id: type_id})) do
       [case(conn_id) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :conn_id on Thrift.Generated.ServiceMetaDataArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :conn_id on Thrift.Generated.ServiceMetaDataArgs must not be nil")
         _ ->
           <<10, 1::16-signed, conn_id::64-signed>>
       end, case(driver_type) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :driver_type on Thrift.Generated.ServiceMetaDataArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :driver_type on Thrift.Generated.ServiceMetaDataArgs must not be nil")
         _ ->
           <<3, 2::16-signed, driver_type::8-signed>>
       end, case(token) do
         nil ->
-          raise(Thrift.InvalidValueException, "Required field :token on Thrift.Generated.ServiceMetaDataArgs must not be nil")
+          raise(Thrift.InvalidValueError, "Required field :token on Thrift.Generated.ServiceMetaDataArgs must not be nil")
         _ ->
           [<<11, 3::16-signed, byte_size(token)::32-signed>> | token]
       end, case(schema) do
