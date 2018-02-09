@@ -135,8 +135,6 @@ defmodule QueryTest do
   end
 
   test "insert query", context do
-    query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_INSERT", [])
-
     [] =
       query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT (id int primary key, text varchar(10))", [])
 
@@ -147,7 +145,6 @@ defmodule QueryTest do
              ])
 
     assert [[43, "fortythree"]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_INSERT", [])
-    query("DROP TABLE SNAPPYEX_TEST.TEST_INSERT", [])
   end
 
   test "insert prepared query", context do
