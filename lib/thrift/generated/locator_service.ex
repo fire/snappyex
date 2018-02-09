@@ -622,6 +622,17 @@ defmodule Thrift.Generated.LocatorService do
                  response
                )}
             )
+          rescue
+            error in Thrift.Generated.SnappyException ->
+              response =
+                %Thrift.Generated.LocatorService.GetAllServersWithPreferredServerResponse{
+                  error: error
+                }
+
+              {:reply,
+               Elixir.Thrift.Generated.LocatorService.GetAllServersWithPreferredServerResponse.BinaryProtocol.serialize(
+                 response
+               )}
           catch
             kind, reason ->
               formatted_exception = Exception.format(kind, reason, System.stacktrace())
@@ -637,17 +648,6 @@ defmodule Thrift.Generated.LocatorService do
                 )
 
               {:server_error, error}
-          rescue
-            error in Thrift.Generated.SnappyException ->
-              response =
-                %Thrift.Generated.LocatorService.GetAllServersWithPreferredServerResponse{
-                  error: error
-                }
-
-              {:reply,
-               Elixir.Thrift.Generated.LocatorService.GetAllServersWithPreferredServerResponse.BinaryProtocol.serialize(
-                 response
-               )}
           end
 
         {_, extra} ->
@@ -679,6 +679,14 @@ defmodule Thrift.Generated.LocatorService do
                  response
                )}
             )
+          rescue
+            error in Thrift.Generated.SnappyException ->
+              response = %Thrift.Generated.LocatorService.GetPreferredServerResponse{error: error}
+
+              {:reply,
+               Elixir.Thrift.Generated.LocatorService.GetPreferredServerResponse.BinaryProtocol.serialize(
+                 response
+               )}
           catch
             kind, reason ->
               formatted_exception = Exception.format(kind, reason, System.stacktrace())
@@ -694,14 +702,6 @@ defmodule Thrift.Generated.LocatorService do
                 )
 
               {:server_error, error}
-          rescue
-            error in Thrift.Generated.SnappyException ->
-              response = %Thrift.Generated.LocatorService.GetPreferredServerResponse{error: error}
-
-              {:reply,
-               Elixir.Thrift.Generated.LocatorService.GetPreferredServerResponse.BinaryProtocol.serialize(
-                 response
-               )}
           end
 
         {_, extra} ->
