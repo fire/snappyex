@@ -40,6 +40,8 @@ defmodule QueryTest do
   end
 
   test "encode basic types", context do
+    query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_ENCODE", [])
+
     [] =
       query(
         "CREATE TABLE SNAPPYEX_TEST.TEST_ENCODE (id int primary key, title varchar(20), body string, f float, d double, b bigint, curr timestamp)",
@@ -135,6 +137,8 @@ defmodule QueryTest do
   end
 
   test "insert query", context do
+    query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_INSERT", [])
+
     [] =
       query("CREATE TABLE SNAPPYEX_TEST.TEST_INSERT (id int primary key, text varchar(10))", [])
 
@@ -145,9 +149,12 @@ defmodule QueryTest do
              ])
 
     assert [[43, "fortythree"]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_INSERT", [])
+    query("DROP TABLE SNAPPYEX_TEST.TEST_INSERT", [])
   end
 
   test "insert prepared query", context do
+    query("DROP TABLE IF EXISTS SNAPPYEX_TEST.TEST_INSERT_PREPARED", [])
+
     [] =
       query(
         "CREATE TABLE SNAPPYEX_TEST.TEST_INSERT_PREPARED (id int primary key, text varchar(10))",
@@ -163,6 +170,7 @@ defmodule QueryTest do
 
     assert [] == execute(query, [43, "fortythree"])
     assert [[43, "fortythree"]] == query("SELECT * FROM SNAPPYEX_TEST.TEST_INSERT_PREPARED", [])
+    query("DROP TABLE SNAPPYEX_TEST.TEST_INSERT_PREPARED", [])
   end
 
   test "prepare, execute and close", context do
