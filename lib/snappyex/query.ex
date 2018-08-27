@@ -32,13 +32,40 @@ end
 
 defimpl DBConnection.Query, for: Snappyex.Query do
   alias Snappyex.Query
+  require Thrift.Generated.SnappyType
+  require Thrift.Generated.OutputParameter
 
   def describe(%Query{} = query, _opts) do
     query
   end
 
   def encode(%Query{param_formats: param_formats}, params, _opts) do
-    encode(param_formats, params)
+    {encode_output_parameters(param_formats, params),
+    encode(param_formats, params)}
+  end
+
+  defp encode_outputs([params | param], acc) do
+    encode_outputs(params, [encode_output(param) | acc])
+  end
+
+  defp encode_outputs([], acc) do
+    acc = Enum.map(acc, fn x -> encode_output(x) end)
+    Enum.reverse(acc)
+  end
+
+  defp encode_output(param) when is_integer(param) do
+    %Thrift.Generated.OutputParameter{type: Thrift.Generated.SnappyType.integer()}
+  end
+
+  defp encode_output_parameters(param_formats, params) do
+    if param_formats == [] do
+      1..length(params)
+      |> Enum.to_list()
+      |> Enum.zip(encode_outputs(param_formats, params))
+      |> Enum.into(%{})
+    else
+      param_formats
+    end
   end
 
   defp encode(types, params) do
@@ -47,6 +74,14 @@ defimpl DBConnection.Query, for: Snappyex.Query do
 
   defp encode_values([type | types], [param | params], acc) do
     encode_values(types, params, [encode_field(param, type) | acc])
+  end
+
+  defp encode_values([] = types, [param | params], acc) when is_integer(param) do
+    encode_values(types, params, [encode_field(param, :integer) | acc])
+  end
+
+  defp encode_values([] = types, [param | params], acc) when is_binary(param) do
+    encode_values(types, params, [encode_field(param, :varchar) | acc])
   end
 
   defp encode_values([], [], acc), do: Enum.reverse(acc)

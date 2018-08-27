@@ -213,11 +213,13 @@ defmodule Snappyex.Protocol do
 
     case execute_lookup(query, state) do
       {:execute, statement_id, _query} ->
+        {prepared_types, prepared_params} = params
+        IO.inspect params
         case Client.execute_prepared(
                process_id,
                statement_id,
-               params,
-               Map.new(),
+               prepared_params,
+               prepared_types,
                %Thrift.Generated.StatementAttrs{},
                token,
                gen_server_opts: [timeout: @time_out]
@@ -227,7 +229,8 @@ defmodule Snappyex.Protocol do
              state}
 
           {:error, error} ->
-            {:disconnect, error, state}
+            {:exception, exception} = error
+            {:disconnect, exception, state}
         end
 
       {:error, error} ->
@@ -293,7 +296,7 @@ defmodule Snappyex.Protocol do
            process_id,
            connection_id,
            to_string(query.statement),
-           output_parameters,
+           nil,
            nil,
            token,
            gen_server_opts: [timeout: @time_out]
