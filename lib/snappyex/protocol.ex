@@ -1,7 +1,7 @@
 defmodule Snappyex.Protocol do
   @moduledoc false
   @behaviour DBConnection
-  @repeatable_read 3
+  @repeatable_read 2
   require Logger
   alias Snappyex.Query, as: Query
   alias Snappyex.Cache, as: Cache
@@ -121,24 +121,56 @@ defmodule Snappyex.Protocol do
     raise "Declare cursor is not implemented"
   end
 
-  def handle_commit(_opts, state) do
-    query = %Snappyex.Query{statement: 'COMMIT'}
-    {:ok, prepared_query, state} = handle_prepare(query, [], state)
-    params = Map.put_new(Map.new(), :params, %Thrift.Generated.Row{values: []})
-    handle_execute(prepared_query, params, [], state)
+  def handle_commit(opts, state) do
+    {:ok, process_id} = Keyword.fetch(state, :process_id)
+    {:ok, token} = Keyword.fetch(state, :token)
+    flags = Keyword.get(opts, :flags, %{})
+    {:ok, connection_id} = Keyword.fetch(state, :connection_id)
+
+    case Client.commit_transaction(
+           process_id,
+           connection_id,
+           false,
+           flags,
+           token,
+           gen_server_opts: [timeout: @time_out]
+         ) do
+
+      {:ok, result} ->
+        {:ok, result, state}
+
+      {:error, error} ->
+        {:error, error, state}
+    end
   end
 
-  def handle_rollback(_opts, state) do
-    query = %Snappyex.Query{statement: 'ROLLBACK'}
-    {:ok, prepared_query, state} = handle_prepare(query, [], state)
-    params = Map.put_new(Map.new(), :params, %Thrift.Generated.Row{values: []})
-    handle_execute(prepared_query, params, [], state)
+  def handle_rollback(opts, state) do
+    {:ok, process_id} = Keyword.fetch(state, :process_id)
+    {:ok, token} = Keyword.fetch(state, :token)
+    flags = Keyword.get(opts, :flags, %{})
+    {:ok, connection_id} = Keyword.fetch(state, :connection_id)
+
+    case Client.rollback_transaction(
+           process_id,
+           connection_id,
+           false,
+           flags,
+           token,
+           gen_server_opts: [timeout: @time_out]
+         ) do
+
+      {:ok, result} ->
+        {:ok, result, state}
+
+      {:error, error} ->
+        {:error, error, state}
+    end
   end
 
   def handle_begin(opts, state) do
     {:ok, process_id} = Keyword.fetch(state, :process_id)
     {:ok, token} = Keyword.fetch(state, :token)
-    {:ok, flags} = Map.fetch(opts, :flags)
+    flags = Keyword.get(opts, :flags, %{})
     {:ok, connection_id} = Keyword.fetch(state, :connection_id)
 
     case Client.begin_transaction(
